@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_layanan');
             $table->string('nama_layanan', 100); 
             $table->float('harga'); 
+            $table->string('gambar')->nullable(); 
             $table->timestamps();
         });
     }
