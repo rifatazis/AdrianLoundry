@@ -120,4 +120,42 @@ class PesananController extends Controller
 
         return view('administrator.lihatStatusPesanan', compact('pesanans'));
     }
+
+    public function statistik(Request $request)
+    {
+        // Ambil bulan dan tahun dari input, gunakan default jika kosong
+        $bulan = $request->bulan ?? now()->month;
+        $tahun = $request->tahun ?? now()->year;
+    
+        // Ambil data pemasukan harian
+        $dataPemasukan = Pesanan::where('status_pesanan', 'selesai')
+                                ->whereYear('tanggal_pesanan', $tahun)
+                                ->whereMonth('tanggal_pesanan', $bulan)
+                                ->selectRaw('DAY(tanggal_pesanan) as hari, SUM(total_harga) as total_pemasukan')
+                                ->groupBy('hari')
+                                ->orderBy('hari')
+                                ->get();
+    
+        // Persiapkan data untuk grafik
+        $labels = [];
+        $data = [];
+        $jumlahHari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun); // Total hari di bulan yang dipilih
+    
+        // Loop untuk setiap hari dalam bulan yang dipilih
+        for ($i = 1; $i <= $jumlahHari; $i++) {
+            // Ambil data pemasukan untuk hari tertentu
+            $pemasukanHari = $dataPemasukan->firstWhere('hari', $i);
+            $labels[] = $i;  // Tanggal
+            $data[] = $pemasukanHari ? $pemasukanHari->total_pemasukan : 0;  // Pemasukan jika ada, 0 jika tidak ada
+        }
+    
+        // Kembalikan view dengan data yang telah disiapkan
+        return view('administrator.lihatStatistik', compact('labels', 'data', 'bulan', 'tahun'));
+    }
+    
+
+
+    
+    
+
 }

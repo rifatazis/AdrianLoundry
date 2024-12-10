@@ -61,3 +61,4 @@ Route::get('/data-pemasukan', [KeuanganController::class, 'index'])->name('data.
 Route::get('/lihatStatusPesanan', [PesananController::class, 'lihatStatusPesanan'])->name('lihatStatusPesanan');
 Route::get('/pesanan/cari', [PesananController::class, 'cari'])->name('pesanan.cari');
 
+Route::get('/lihatStatistik', [PesananController::class, 'statistik'])->name('lihatStatistik');
