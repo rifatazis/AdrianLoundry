@@ -7,39 +7,29 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\PemasukanController;
 
-/*
-|---------------------------------------------------------------------------
-| Web Routes
-|---------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application.
-| These routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
-    return view('auth/login');
+    return view('auth/halamanLogin');
 });
 
 // Authentication Routes
-Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('register', [AuthController::class, 'register']);
+Route::get('halamanLogin', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('halamanLogin', [AuthController::class, 'login']);
+Route::get('halamanRegister', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('halamanRegister', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('administrator/dashboard', function () {
-    return view('administrator.dashboard');
-})->middleware(['auth', 'role:administrator'])->name('administrator.dashboard');
+Route::get('administrator/halamanUtama', function () {
+    return view('administrator.halamanUtama');
+})->middleware(['auth', 'role:administrator'])->name('administrator.halamanUtama');
 
-Route::get('pelanggan/dashboard', function () {
-    return view('pelanggan.dashboard');
-})->middleware(['auth', 'role:pelanggan'])->name('pelanggan.dashboard');
+Route::get('pelanggan/halamanUtama', function () {
+    return view('pelanggan.halamanUtama');
+})->middleware(['auth', 'role:pelanggan'])->name('pelanggan.halamanUtama');
 
-Route::get('/dashboard', function () {
-    return view('administrator.dashboard');
-})->name('dashboard');
+Route::get('/halamanUtama', function () {
+    return view('administrator.halamanUtama');
+})->name('halamanUtama');
  
 Route::resource('layanan', LayananController::class); 
 
@@ -61,4 +51,12 @@ Route::get('/data-pemasukan', [KeuanganController::class, 'index'])->name('data.
 Route::get('/lihatStatusPesanan', [PesananController::class, 'lihatStatusPesanan'])->name('lihatStatusPesanan');
 Route::get('/pesanan/cari', [PesananController::class, 'cari'])->name('pesanan.cari');
 
+
 Route::get('/lihatStatistik', [PesananController::class, 'statistik'])->name('lihatStatistik');
+
+
+Route::get('/pesanan/carii', [PesananController::class, 'carii'])->name('pesanan.carii');
+
+Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
+
+

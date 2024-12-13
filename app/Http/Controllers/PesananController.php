@@ -121,6 +121,26 @@ class PesananController extends Controller
         return view('administrator.lihatStatusPesanan', compact('pesanans'));
     }
 
+    
+    public function carii(Request $request)
+    {
+        $kodePesanan = $request->input('kode_pesanan');
+        $pesanans = Pesanan::where('kode_pesanan', $kodePesanan)->get();
+    
+        if ($pesanans->isEmpty()) {
+            return redirect()->route('pelanggan.halamanUtama')->with('success', 'Kode pesanan tidak ditemukan.');
+        }
+    
+        return view('pelanggan.halamanUtama', compact('pesanans'));
+    }
+    
+    
+    
+      
+
+    
+    
+
     public function statistik(Request $request)
     {
         // Ambil bulan dan tahun dari input, gunakan default jika kosong

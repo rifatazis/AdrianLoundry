@@ -12,12 +12,12 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.halamanLogin');
     }
 
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('auth.halamanRegister');
     }
 
     public function register(Request $request)
@@ -25,21 +25,59 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:50|unique:user',
             'password' => 'required|string|min:6|confirmed',
+        ], [
+            'password.min' => 'Password minimal 6 karakter.'
         ]);
     
         if ($validator->fails()) {
-            return redirect()->route('register')->withErrors($validator)->withInput();
+            $message = $this->registerMessage($validator, false, $request->username);
+            return redirect()->route('register')->withErrors($message['message'])->withInput();
         }
     
         User::create([
             'username' => $request->username,
-            'password' => Hash::make($request->password), // Hash password here
-            'role' => 'pelanggan', 
+            'password' => Hash::make($request->password),
+            'role' => 'pelanggan',
         ]);
     
-        return redirect()->route('login')->with('success', 'Akun berhasil dibuat. Silakan login.');
-    }    
+        $message = $this->registerMessage(null, true, $request->username);
+        return redirect()->route('login')->with('success', $message['message'][0]);
 
+
+    }
+    
+    private function registerMessage($validator = null, $success = false, $username = null)
+    {
+        if ($validator) {
+            if ($validator->errors()->has('username')) {
+                return [
+                    'status' => 'error',
+                    'message' => ['Username "' . $username . '" sudah terpakai.']
+                ];
+            }
+            return [
+                'status' => 'error',
+                'message' => [$validator->errors()->first()]
+            ];
+        }
+    
+        if ($success) {
+            return [
+                'status' => 'success',
+                'message' => ['Akun "' . $username . '" berhasil tersimpan.']
+            ];
+        }
+    
+        return [
+            'status' => 'error',
+            'message' => ['Terjadi kesalahan. Silakan coba lagi.']
+        ];
+    }
+    
+
+
+
+    // login
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,15 +92,13 @@ class AuthController extends Controller
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
             $user = Auth::user();
             if ($user->role == 'administrator') {
-                return redirect()->route('administrator.dashboard');
+                return redirect()->route('administrator.halamanUtama');
             } else {
-                return redirect()->route('pelanggan.dashboard');
+                return redirect()->route('pelanggan.halamanUtama');
             }
         } else {
             return redirect()->route('login')->with('error', 'Username atau password salah.');
         }
-               
-        
     }
 
     public function logout()

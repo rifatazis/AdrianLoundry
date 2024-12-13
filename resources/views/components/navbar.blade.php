@@ -1,5 +1,5 @@
 <nav class="bg-gray-800"
-    x-data="{ activeMenu: '{{ request()->routeIs('dashboard') ? 'dashboard' 
+    x-data="{ activeMenu: '{{ request()->routeIs('halamanUtama') ? 'halamanUtama' 
             : (request()->routeIs('mengelolaLayananDanHarga') ? 'mengelolaLayananDanHarga' 
             : (request()->routeIs('tambahPesanan') || request()->routeIs('statusPesanan') || request()->routeIs('lihatStatusPesanan') ? 'pesanan' 
             : (request()->routeIs('keuangan') || request()->routeIs('statistikKeuangan') ? 'keuangan' : ''))) }}', isPesananOpen: false, isKeuanganOpen: false }">
@@ -12,10 +12,10 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <!-- Dashboard -->
-                        <a href="{{ route('dashboard') }}"
-                            :class="{'bg-gray-900 text-white': activeMenu === 'dashboard', 'text-gray-300': activeMenu !== 'dashboard'}"
-                            class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700">Dashboard</a>
+                        <!-- Halaman Utama -->
+                        <a href="{{ route('halamanUtama') }}"
+                            :class="{'bg-gray-900 text-white': activeMenu === 'halamanUtama', 'text-gray-300': activeMenu !== 'halamanUtama'}"
+                            class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700">Halaman Utama</a>
 
                         <!-- Kelola Layanan -->
                         <a href="{{ route('mengelolaLayananDanHarga') }}"
