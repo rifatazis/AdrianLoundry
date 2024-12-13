@@ -9,7 +9,7 @@ class PesananController extends Controller
 {
     public function tambahPesanan()
     {
-        $pesanans = Pesanan::with('user', 'layanan')->get();
+        $pesanans = Pesanan::with('layanan')->get();
         $layanan = Layanan::all(); 
 
         return view('administrator.tambahPesanan', compact('pesanans', 'layanan'));
@@ -17,7 +17,7 @@ class PesananController extends Controller
 
     public function statusPesanan(Request $request)
     {
-        $query = Pesanan::with('user', 'layanan');
+        $query = Pesanan::with('layanan');
 
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
@@ -32,7 +32,7 @@ class PesananController extends Controller
 
     public function lihatStatusPesanan(Request $request)
 {
-    $query = Pesanan::with('user', 'layanan');
+    $query = Pesanan::with('layanan');
 
     if ($request->has('search') && $request->search != '') {
         $search = $request->search;
@@ -49,7 +49,7 @@ class PesananController extends Controller
     public function ubahStatusPesanan(Request $request, $id)
     {
         $validated = $request->validate([
-            'status_pesanan' => 'required|in:diproses,selesai,dibatalkan',
+            'status_pesanan' => 'required|in:diproses,selesai',
         ]);
 
         $pesanan = Pesanan::findOrFail($id);

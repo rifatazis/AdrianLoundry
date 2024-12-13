@@ -65,7 +65,7 @@
         @foreach($pesanans as $pesanan)
         <tr>
             <td class="px-4 py-2 border text-white">{{ $pesanan->kode_pesanan }}</td>
-            <td class="px-4 py-2 border text-white">{{ $pesanan->user->username ?? 'Pelanggan Baru' }}</td>
+            <td class="px-4 py-2 border text-white">{{ $pesanan->nama_pelanggan }}</td>
             <td class="px-4 py-2 border text-white">{{ $pesanan->layanan->nama_layanan }}</td>
             <td class="px-4 py-2 border text-white">{{ $pesanan->berat }}</td>
             <td class="px-4 py-2 border text-white">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
