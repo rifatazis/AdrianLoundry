@@ -11,15 +11,16 @@
     <title>Mengelola Layanan</title>
 </head>
 
-<body class="h-full">
+<body class="h-auto bg-cover bg-center bg-no-repeat bg-fixed"
+      style="background-image: url('/images/administrator.png');">
     <div class="min-h-full" x-data="{ open: false, editLayanan: null }">
         <x-navbar></x-navbar>
         <x-header>Mengelola Layanan</x-header>
 
         @if (session('success'))
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
-            {{ session('success') }}
-        </div>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+                {{ session('success') }}
+            </div>
         @endif
 
         <main class="container mx-auto py-6">
@@ -70,17 +71,18 @@
                 class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50" x-cloak>
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
                     <h2 class="text-2xl mb-4">Edit Layanan</h2>
-                    <form x-bind:action="'{{ url('layanan') }}/' + editLayanan.id_layanan" method="POST" enctype="multipart/form-data">
+                    <form x-bind:action="'{{ url('layanan') }}/' + editLayanan.id_layanan" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-4">
                             <label for="nama_layanan" class="block text-sm font-semibold">Nama Layanan</label>
-                            <input type="text" id="nama_layanan" name="nama_layanan" :value="editLayanan.nama_layanan"
+                            <input type="text" id="nama_layanan" name="nama_layanan" :value="editLayanan . nama_layanan"
                                 class="w-full border px-4 py-2 rounded" required>
                         </div>
                         <div class="mb-4">
                             <label for="harga" class="block text-sm font-semibold">Harga</label>
-                            <input type="number" id="harga" name="harga" :value="editLayanan.harga"
+                            <input type="number" id="harga" name="harga" :value="editLayanan . harga"
                                 class="w-full border px-4 py-2 rounded" required>
                         </div>
                         <div class="mb-4">
@@ -103,37 +105,45 @@
             </div>
 
             <!-- Tabel Layanan -->
-            <div class="overflow-x-auto bg-white shadow rounded-lg mt-6">
-                <table class="min-w-full table-auto text-center">
-                    <thead class="bg-gray-100">
+            <div class="overflow-x-auto  shadow rounded-lg mt-6">
+                <table class="min-w-full table-auto border-collapse border border-gray-200">
+                    <thead>
                         <tr>
-                            <th class="px-6 py-2 text-sm font-semibold text-gray-600">No</th>
-                            <th class="px-6 py-2 text-sm font-semibold text-gray-600">Nama Layanan</th>
-                            <th class="px-6 py-2 text-sm font-semibold text-gray-600">Harga</th>
-                            <th class="px-6 py-2 text-sm font-semibold text-gray-600">Gambar</th>
-                            <th class="px-6 py-2 text-sm font-semibold text-gray-600">Aksi</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">No</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Nama Layanan</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Harga</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Gambar</th>
+                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($layanan as $index => $item)
-                        <tr>
-                            <td class="px-6 py-2 text-sm">{{ $index + 1 }}</td>
-                            <td class="px-6 py-2 text-sm">{{ $item->nama_layanan }}</td>
-                            <td class="px-6 py-2 text-sm">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
-                            <td class="px-6 py-2">
-                                @if($item->gambar)
-                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar Layanan" class="w-16 h-16 object-cover rounded mx-auto">
-                                @else
-                                <p class="text-gray-500">Tidak ada gambar</p>
-                                @endif
-                            </td>
-                            <td class="px-6 py-2">
-                                <!-- Konfirmasi Penghapusan -->
-                                <button @click="if(confirm('Apakah Anda yakin ingin menghapus layanan ini?')) { window.location = '{{ route('layanan.destroy', $item->id_layanan) }}' }"
-                                    class="bg-red-500 text-white px-4 py-2 rounded mr-2">Hapus</button>
-                                <button @click="editLayanan = {{ $item }}" class="bg-yellow-500 text-white px-4 py-2 rounded mr-2">Edit</button>
-                            </td>
-                        </tr>
+                            <tr class="">
+                                <td class="px-4 py-2 text-sm border text-white text-center">{{ $index + 1 }}</td>
+                                <td class="px-4 py-2 text-sm border text-white text-center">{{ $item->nama_layanan }}</td>
+                                <td class="px-4 py-2 text-sm border text-white text-center">Rp
+                                    {{ number_format($item->harga, 0, ',', '.') }}</td>
+                                <td class="px-4 py-2 border text-white text-center">
+                                    @if($item->gambar)
+                                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar Layanan"
+                                            class="w-16 h-16 object-cover rounded mx-auto">
+                                    @else
+                                        <p class="text-gray-500">Tidak ada gambar</p>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-2 border text-white text-center">
+                                    <!-- Form Penghapusan -->
+                                    <form action="{{ route('layanan.destroy', $item->id_layanan) }}" method="POST"
+                                        style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded mr-2"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus layanan ini?')">Hapus</button>
+                                    </form>
+                                    <button @click="editLayanan = {{ $item }}"
+                                        class="bg-yellow-500 text-white px-4 py-2 rounded mr-2">Edit</button>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

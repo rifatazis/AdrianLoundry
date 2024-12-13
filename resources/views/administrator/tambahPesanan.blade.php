@@ -10,7 +10,7 @@
     <title>Tambah Pesanan</title>
 </head>
 
-<body class="h-full">
+<body class="h-full" style="background-image: url('/images/administrator.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
@@ -50,34 +50,31 @@
 
 
 
-            <table class="min-w-full table-auto border-collapse border border-gray-200">
-                <thead>
-                    <tr>
-                        <!-- <th class="px-4 py-2 border">ID Pesanan</th> -->
-                        <th class="px-4 py-2 border">Kode Pesanan</th>
-                        <th class="px-4 py-2 border">Nama Pelanggan</th>
-                        <th class="px-4 py-2 border">Jenis Layanan</th>
-                        <th class="px-4 py-2 border">Berat (kg)</th>
-                        <th class="px-4 py-2 border">Total Harga</th>
-                        <th class="px-4 py-2 border">Tanggal Pesanan</th>
-                        <!-- <th class="px-4 py-2 border">Status</th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pesanans as $pesanan)
-                    <tr>
-                        <!-- <td class="px-4 py-2 border">{{ $pesanan->id_pesanan }}</td> -->
-                        <td class="px-4 py-2 border">{{ $pesanan->kode_pesanan }}</td>
-                        <td class="px-4 py-2 border">{{ $pesanan->user->username ?? 'Pelanggan Baru' }}</td>
-                        <td class="px-4 py-2 border">{{ $pesanan->layanan->nama_layanan }}</td>
-                        <td class="px-4 py-2 border">{{ $pesanan->berat }}</td>
-                        <td class="px-4 py-2 border">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-                        <td class="px-4 py-2 border">{{ $pesanan->tanggal_pesanan }}</td>
-                        <!-- <td class="px-4 py-2 border">{{ $pesanan->status_pesanan }}</td> -->
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+         <table class="min-w-full table-auto border-collapse border border-gray-200">
+    <thead>
+        <tr>
+            <th class="px-4 py-2 border text-white">Kode Pesanan</th>
+            <th class="px-4 py-2 border text-white">Nama Pelanggan</th>
+            <th class="px-4 py-2 border text-white">Jenis Layanan</th>
+            <th class="px-4 py-2 border text-white">Berat (kg)</th>
+            <th class="px-4 py-2 border text-white">Total Harga</th>
+            <th class="px-4 py-2 border text-white">Tanggal Pesanan</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($pesanans as $pesanan)
+        <tr>
+            <td class="px-4 py-2 border text-white">{{ $pesanan->kode_pesanan }}</td>
+            <td class="px-4 py-2 border text-white">{{ $pesanan->user->username ?? 'Pelanggan Baru' }}</td>
+            <td class="px-4 py-2 border text-white">{{ $pesanan->layanan->nama_layanan }}</td>
+            <td class="px-4 py-2 border text-white">{{ $pesanan->berat }}</td>
+            <td class="px-4 py-2 border text-white">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
+            <td class="px-4 py-2 border text-white">{{ $pesanan->tanggal_pesanan }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
 
 
             <div x-show="open" x-transition @click.away="open = false"

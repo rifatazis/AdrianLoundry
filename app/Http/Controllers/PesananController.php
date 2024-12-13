@@ -122,6 +122,7 @@ class PesananController extends Controller
     }
 
     
+    // cari di pelanggan
     public function carii(Request $request)
     {
         $kodePesanan = $request->input('kode_pesanan');
@@ -134,16 +135,12 @@ class PesananController extends Controller
         return view('pelanggan.halamanUtama', compact('pesanans'));
     }
     
-    
-    
-      
 
     
     
 
     public function statistik(Request $request)
     {
-        // Ambil bulan dan tahun dari input, gunakan default jika kosong
         $bulan = $request->bulan ?? now()->month;
         $tahun = $request->tahun ?? now()->year;
     
@@ -159,9 +156,8 @@ class PesananController extends Controller
         // Persiapkan data untuk grafik
         $labels = [];
         $data = [];
-        $jumlahHari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun); // Total hari di bulan yang dipilih
+        $jumlahHari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun); 
     
-        // Loop untuk setiap hari dalam bulan yang dipilih
         for ($i = 1; $i <= $jumlahHari; $i++) {
             // Ambil data pemasukan untuk hari tertentu
             $pemasukanHari = $dataPemasukan->firstWhere('hari', $i);

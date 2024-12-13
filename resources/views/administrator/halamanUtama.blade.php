@@ -9,15 +9,16 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Document</title>
 </head>
-<body class="h-full">
+<body class="h-full bg-cover bg-center" style="background-image: url('/images/administrator.png'); background-repeat: no-repeat;">
 <div class="min-h-full">
 
   <x-navbar></x-navbar>
   
   <x-header>Administrator</x-header>
 
-  <main>
-    bos 
+  <main class="flex items-center justify-center h-full">
+    <!-- Konten Utama Halaman -->
+    bos
   </main>
 
 </div>

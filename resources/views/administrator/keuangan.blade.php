@@ -10,7 +10,7 @@
     <title>Data Pemasukan</title>
 </head>
 
-<body class="h-full">
+<body class="h-full" style="background-image: url('/images/administrator.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
     <div class="min-h-full" x-data="{ open: false }">
         <x-navbar></x-navbar>

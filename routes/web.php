@@ -31,13 +31,12 @@ Route::get('/halamanUtama', function () {
     return view('administrator.halamanUtama');
 })->name('halamanUtama');
  
-Route::resource('layanan', LayananController::class); 
+Route::resource('layanan', LayananController::class);
+Route::get('layanan/{id}', [LayananController::class, 'show'])->name('layanan.show');
 
 
 Route::get('/mengelolaLayananDanHarga', [LayananController::class, 'index'])->name('mengelolaLayananDanHarga');
 
-Route::get('/administrator/mengelola-layanan-dan-harga', [LayananController::class, 'index'])
-    ->name('administrator.mengelolaLayananDanHarga');
 
 Route::get('/tambahPesanan', [PesananController::class, 'tambahPesanan'])->name('tambahPesanan');
 Route::post('/tambahPesanan', [PesananController::class, 'store'])->name('tambahPesanan.store');

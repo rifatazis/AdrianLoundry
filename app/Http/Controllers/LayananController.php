@@ -36,6 +36,8 @@ class LayananController extends Controller
         return redirect()->route('layanan.index')->with('success', 'Layanan berhasil ditambahkan!');
     }
 
+
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -59,6 +61,16 @@ class LayananController extends Controller
 
         return redirect()->route('layanan.index')->with('success', 'Layanan berhasil diperbarui!');
     }
+
+    public function show($id)
+{
+    $layanan = Layanan::find($id);
+    if (!$layanan) {
+        abort(404);
+    }
+    return view('layanan.show', compact('layanan'));
+}
+
 
     public function destroy($id)
     {

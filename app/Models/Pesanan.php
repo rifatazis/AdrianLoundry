@@ -18,7 +18,8 @@ class Pesanan extends Model
         'berat',
         'total_harga',
         'tanggal_pesanan',
-        'status_pesanan'
+        'status_pesanan',
+        // 'nama_pelanggan',
     ]; 
 
     protected $casts = [
