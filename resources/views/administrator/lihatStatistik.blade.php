@@ -11,9 +11,9 @@
     <title>Data Pemasukan Harian</title>
 </head>
 
-<body class="h-full" style="background-image: url('/images/administrator.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-
-    <div class="min-h-full" x-data="{ open: false }">
+<body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
+      style="background-image: url('/images/administrator.png');">
+    <div class="min-h-full " x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
 
@@ -50,7 +50,7 @@
         </form>
 
         <!-- Grafik Pemasukan Harian -->
-        <div class="p-4">
+        <div class="p-4 ">
             <canvas id="pemasukanChart"></canvas>
         </div>
 

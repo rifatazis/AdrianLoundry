@@ -132,7 +132,10 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-2 border text-white text-center">
-                                    <!-- Form Penghapusan -->
+                                    <button @click="editLayanan = {{ $item }}"
+                                        class="bg-yellow-500 text-white px-4 py-2 rounded mr-2">Edit
+                                    </button>
+                                    
                                     <form action="{{ route('layanan.destroy', $item->id_layanan) }}" method="POST"
                                         style="display: inline;">
                                         @csrf
@@ -140,8 +143,7 @@
                                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded mr-2"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus layanan ini?')">Hapus</button>
                                     </form>
-                                    <button @click="editLayanan = {{ $item }}"
-                                        class="bg-yellow-500 text-white px-4 py-2 rounded mr-2">Edit</button>
+                                   
                                 </td>
                             </tr>
                         @endforeach

@@ -10,7 +10,8 @@
     <title>Tambah Pesanan</title>
 </head>
 
-<body class="h-full" style="background-image: url('/images/administrator.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
+      style="background-image: url('/images/administrator.png');">
 
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
@@ -20,21 +21,21 @@
         <x-header>Tambah Pesanan</x-header>
 
         @if(session('success'))
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
-            <div class="bg-white p-6 rounded-md max-w-sm w-full">
-                <h2 class="text-xl font-semibold mb-4">Pesanan Berhasil Disimpan!</h2>
-                <p>{{ session('success') }}</p>
-                <button class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
-                    onclick="window.location.reload();">OK</button>
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+                <div class="bg-white p-6 rounded-md max-w-sm w-full">
+                    <h2 class="text-xl font-semibold mb-4">Pesanan Berhasil Disimpan!</h2>
+                    <p>{{ session('success') }}</p>
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                        onclick="window.location.reload();">OK</button>
+                </div>
             </div>
-        </div>
         @endif
 
 
-        <div class="container mt-4 ml-6">
+        <div class="container mt-4 mx-auto">
 
             <div class="flex items-center justify-between mb-4">
-                <h1 class="text-xl font-semibold">Daftar Pesanan Masuk</h1>
+                <h1 class="text-xl font-semibold text-white">Daftar Pesanan Masuk</h1>
                 <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded-md mb-[8px]" @click="open = true">
                     Tambah Pesanan
                 </button>
@@ -42,38 +43,39 @@
 
 
             @if(session('success'))
-            <div class="bg-green-500 text-white p-4 rounded-md mb-4">
-                {{ session('success') }} - Kode Pesanan: <strong>{{ session('kode_pesanan') }}</strong>
-            </div>
+                <div class="bg-green-500 text-white p-4 rounded-md mb-4">
+                    {{ session('success') }} - Kode Pesanan: <strong>{{ session('kode_pesanan') }}</strong>
+                </div>
             @endif
 
 
 
 
-         <table class="min-w-full table-auto border-collapse border border-gray-200">
-    <thead>
-        <tr>
-            <th class="px-4 py-2 border text-white">Kode Pesanan</th>
-            <th class="px-4 py-2 border text-white">Nama Pelanggan</th>
-            <th class="px-4 py-2 border text-white">Jenis Layanan</th>
-            <th class="px-4 py-2 border text-white">Berat (kg)</th>
-            <th class="px-4 py-2 border text-white">Total Harga</th>
-            <th class="px-4 py-2 border text-white">Tanggal Pesanan</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($pesanans as $pesanan)
-        <tr>
-            <td class="px-4 py-2 border text-white">{{ $pesanan->kode_pesanan }}</td>
-            <td class="px-4 py-2 border text-white">{{ $pesanan->nama_pelanggan }}</td>
-            <td class="px-4 py-2 border text-white">{{ $pesanan->layanan->nama_layanan }}</td>
-            <td class="px-4 py-2 border text-white">{{ $pesanan->berat }}</td>
-            <td class="px-4 py-2 border text-white">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-            <td class="px-4 py-2 border text-white">{{ $pesanan->tanggal_pesanan }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+            <table class="min-w-full table-auto border-collapse border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 border text-white">Kode Pesanan</th>
+                        <th class="px-4 py-2 border text-white">Nama Pelanggan</th>
+                        <th class="px-4 py-2 border text-white">Jenis Layanan</th>
+                        <th class="px-4 py-2 border text-white">Berat (kg)</th>
+                        <th class="px-4 py-2 border text-white">Total Harga</th>
+                        <th class="px-4 py-2 border text-white">Tanggal Pesanan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($pesanans as $pesanan)
+                        <tr>
+                            <td class="px-4 py-2 border text-white">{{ $pesanan->kode_pesanan }}</td>
+                            <td class="px-4 py-2 border text-white">{{ $pesanan->nama_pelanggan }}</td>
+                            <td class="px-4 py-2 border text-white">{{ $pesanan->layanan->nama_layanan }}</td>
+                            <td class="px-4 py-2 border text-white">{{ $pesanan->berat }}</td>
+                            <td class="px-4 py-2 border text-white">
+                                Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
+                            <td class="px-4 py-2 border text-white">{{ $pesanan->tanggal_pesanan }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
 
 
@@ -97,8 +99,9 @@
                                 <select name="id_layanan" id="id_layanan" class="w-full p-2 border rounded-md" required>
                                     <option value="">Pilih Layanan</option>
                                     @foreach($layanan as $l)
-                                    <option value="{{ $l->id_layanan }}" data-harga="{{ $l->harga }}">
-                                        {{ $l->nama_layanan }} - Rp{{ number_format($l->harga, 0, ',', '.') }}</option>
+                                        <option value="{{ $l->id_layanan }}" data-harga="{{ $l->harga }}">
+                                            {{ $l->nama_layanan }} - Rp{{ number_format($l->harga, 0, ',', '.') }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -114,7 +117,7 @@
                             </div>
                             <div class="mb-4">
                                 <label for="tanggal_pesanan" class="block">Tanggal Pesanan Masuk</label>
-                                <input type="date" name="tanggal_pesanan" class="w-full p-2 border rounded-md" required>
+                                <input type="datetime-local" name="tanggal_pesanan" class="w-full p-2 border rounded-md" required>
                             </div>
                             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Simpan</button>
                         </form>
@@ -126,25 +129,34 @@
 
 </body>
 <script>
-document.getElementById('berat').addEventListener('input', updateHarga);
-document.getElementById('id_layanan').addEventListener('change', updateHarga);
+    document.getElementById('berat').addEventListener('input', updateHarga);
+    document.getElementById('id_layanan').addEventListener('change', updateHarga);
 
-function updateHarga() {
-    const layanan = document.getElementById('id_layanan');
-    const berat = document.getElementById('berat').value;
-    const hargaPerKg = layanan.options[layanan.selectedIndex]?.dataset.harga || 0;
-    const totalHarga = berat * hargaPerKg;
-    document.getElementById('total_harga').value = totalHarga ?
-        `Rp${new Intl.NumberFormat('id-ID').format(totalHarga)}` : '';
-}
+    function updateHarga() {
+        const layanan = document.getElementById('id_layanan');
+        const berat = document.getElementById('berat').value;
+        const hargaPerKg = layanan.options[layanan.selectedIndex]?.dataset.harga || 0;
+        const totalHarga = berat * hargaPerKg;
+        document.getElementById('total_harga').value = totalHarga ?
+            `Rp${new Intl.NumberFormat('id-ID').format(totalHarga)}` : '';
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
     const inputTanggal = document.querySelector('input[name="tanggal_pesanan"]');
-    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); 
+    const day = String(now.getDate()).padStart(2, '0'); 
+    const hours = String(now.getHours()).padStart(2, '0'); 
+    const minutes = String(now.getMinutes()).padStart(2, '0'); 
+    
+    const defaultDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
     if (inputTanggal) {
-        inputTanggal.value = today;
+        inputTanggal.value = defaultDateTime; 
     }
 });
+
 </script>
 
 </html>

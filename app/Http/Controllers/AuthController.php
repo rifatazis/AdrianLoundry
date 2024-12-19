@@ -20,8 +20,10 @@ class AuthController extends Controller
         return view('auth.halamanRegister');
     }
 
+    // register
     public function register(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:50|unique:user',
             'password' => 'required|string|min:6|confirmed',
@@ -29,22 +31,24 @@ class AuthController extends Controller
             'password.min' => 'Password minimal 6 karakter.'
         ]);
     
+        
         if ($validator->fails()) {
             $message = $this->registerMessage($validator, false, $request->username);
             return redirect()->route('register')->withErrors($message['message'])->withInput();
         }
-    
+
+        
         User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'role' => 'pelanggan',
         ]);
     
+       //message ke login
         $message = $this->registerMessage(null, true, $request->username);
         return redirect()->route('login')->with('success', $message['message'][0]);
-
-
     }
+    
     
     private function registerMessage($validator = null, $success = false, $username = null)
     {
@@ -73,11 +77,8 @@ class AuthController extends Controller
             'message' => ['Terjadi kesalahan. Silakan coba lagi.']
         ];
     }
-    
 
-
-
-    // login
+    // Login
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -101,6 +102,7 @@ class AuthController extends Controller
         }
     }
 
+    // Logout
     public function logout()
     {
         Auth::logout();

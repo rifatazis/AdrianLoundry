@@ -64,6 +64,7 @@ class PesananController extends Controller
         return response()->json(['success' => true]);
     }
 
+    //menampilkan pesanan
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -76,6 +77,7 @@ class PesananController extends Controller
         $layanan = Layanan::find($request->id_layanan);
         $total_harga = $layanan->harga * $request->berat;
         $kode_pelacakan = strtoupper(substr(md5(time()), 0, 3)); 
+        
     
         Pesanan::create([
             'nama_pelanggan' => $request->nama_pelanggan,
@@ -109,6 +111,7 @@ class PesananController extends Controller
         return view('administrator.keuangan', compact('pesanans', 'totalPemasukan', 'bulan', 'tahun'));
     }
 
+    //cari di administrator
     public function cari(Request $request)
     {
         $kodePesanan = $request->input('kode_pesanan');
@@ -144,7 +147,7 @@ class PesananController extends Controller
         $bulan = $request->bulan ?? now()->month;
         $tahun = $request->tahun ?? now()->year;
     
-        // Ambil data pemasukan harian
+        
         $dataPemasukan = Pesanan::where('status_pesanan', 'selesai')
                                 ->whereYear('tanggal_pesanan', $tahun)
                                 ->whereMonth('tanggal_pesanan', $bulan)
@@ -153,19 +156,18 @@ class PesananController extends Controller
                                 ->orderBy('hari')
                                 ->get();
     
-        // Persiapkan data untuk grafik
+    
         $labels = [];
         $data = [];
         $jumlahHari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun); 
     
         for ($i = 1; $i <= $jumlahHari; $i++) {
-            // Ambil data pemasukan untuk hari tertentu
+            
             $pemasukanHari = $dataPemasukan->firstWhere('hari', $i);
-            $labels[] = $i;  // Tanggal
-            $data[] = $pemasukanHari ? $pemasukanHari->total_pemasukan : 0;  // Pemasukan jika ada, 0 jika tidak ada
+            $labels[] = $i;  
+            $data[] = $pemasukanHari ? $pemasukanHari->total_pemasukan : 0;  
         }
     
-        // Kembalikan view dengan data yang telah disiapkan
         return view('administrator.lihatStatistik', compact('labels', 'data', 'bulan', 'tahun'));
     }
     

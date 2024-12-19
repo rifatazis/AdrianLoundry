@@ -14,6 +14,12 @@ class LayananController extends Controller
         return view('administrator.mengelolaLayananDanHarga', compact('layanan'));
     }
 
+    public function halamanUtama()
+    {
+        $layanan = Layanan::all();
+        return view('administrator.halamanUtama', compact('layanan'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
