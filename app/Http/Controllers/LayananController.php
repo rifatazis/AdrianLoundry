@@ -8,18 +8,15 @@ use Illuminate\Support\Facades\Storage;
 
 class LayananController extends Controller
 {
+
     public function index()
     {
-        $layanan = Layanan::all();
-        return view('administrator.mengelolaLayananDanHarga', compact('layanan'));
+        // $layanan = Layanan::all();
+        $layanan = Layanan::paginate(5);
+        return view('administrator.halamanMengelolaLayanandanHarga', compact('layanan'));
     }
 
-    public function halamanUtama()
-    {
-        $layanan = Layanan::all();
-        return view('administrator.halamanUtama', compact('layanan'));
-    }
-
+    // layanan Kelola Layanan
     public function store(Request $request)
     {
         $request->validate([
@@ -27,19 +24,26 @@ class LayananController extends Controller
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         $gambarPath = null;
         if ($request->hasFile('gambar')) {
             $gambarPath = $request->file('gambar')->store('layanan', 'public');
         }
-    
+
         Layanan::create([
             'nama_layanan' => $request->nama_layanan,
             'harga' => $request->harga,
             'gambar' => $gambarPath,
         ]);
-    
+
         return redirect()->route('layanan.index')->with('success', 'Layanan berhasil ditambahkan!');
+    }
+
+    // layanan Halaman Utama Administrator
+    public function halamanUtama()
+    {
+        $layanan = Layanan::all();
+        return view('administrator.halamanUtamaAdministrator', compact('layanan'));
     }
 
 
@@ -69,13 +73,13 @@ class LayananController extends Controller
     }
 
     public function show($id)
-{
-    $layanan = Layanan::find($id);
-    if (!$layanan) {
-        abort(404);
+    {
+        $layanan = Layanan::find($id);
+        if (!$layanan) {
+            abort(404);
+        }
+        return view('layanan.show', compact('layanan'));
     }
-    return view('layanan.show', compact('layanan'));
-}
 
 
     public function destroy($id)
@@ -86,7 +90,7 @@ class LayananController extends Controller
         }
         $layanan->delete();
 
-        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil dihapus!');
+        return redirect()->route('layanan.index');
     }
 }
 

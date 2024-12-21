@@ -59,7 +59,7 @@
 
                 <p class="mt-4 text-sm text-center">
                     <span class="text-gray-600">Don't have an account?</span>
-                    <a href="{{ route('register') }}" class="text-red-600 hover:underline">Create an account</a>
+                    <a href="{{ route('register') }}" class="text-red-600 hover:underline">Register</a>
                 </p>
             </div>
         </div>

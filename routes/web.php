@@ -13,34 +13,36 @@ Route::get('/', function () {
 });
 
 // Authentication Routes
-Route::get('halamanLogin', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('halamanLogin', [AuthController::class, 'tampilLogin'])->name('login');
 Route::post('halamanLogin', [AuthController::class, 'login']);
-Route::get('halamanRegister', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::get('halamanRegister', [AuthController::class, 'tampilRegister'])->name('register');
 Route::post('halamanRegister', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 // Administrator Routes
-Route::get('administrator/halamanUtama', function () {
+Route::get('administrator/halamanUtamaAdministrator', function () {
     $layanan = Layanan::all();
-    return view('administrator.halamanUtama', compact('layanan'));
-})->middleware(['auth', 'role:administrator'])->name('administrator.halamanUtama');
+    return view('administrator.halamanUtamaAdministrator', compact('layanan'));
+})->middleware(['auth', 'role:administrator'])->name('administrator.halamanUtamaAdministrator');
 
 // Pelanggan Routes
 Route::get('pelanggan/halamanUtama', function () {
     return view('pelanggan.halamanUtama');
 })->middleware(['auth', 'role:pelanggan'])->name('pelanggan.halamanUtama');
 
-// Halaman utama
-Route::get('/halamanUtama', function () {
-    return view('administrator.halamanUtama');
-})->name('halamanUtama');
+// Halaman utama administrator
+Route::get('/halamanUtamaAdministrator', function () {
+    return view('administrator.halamanUtamaAdministrator');
+})->name('halamanUtamaAdministrator');
+
+// halaman utama pelanggan
 Route::get('/halamanUtama', [LayananController::class, 'halamanUtama'])->name('halamanUtama');
 
 
 // Layanan Routes
 Route::resource('layanan', LayananController::class);
 Route::get('layanan/{id}', [LayananController::class, 'show'])->name('layanan.show');
-Route::get('/mengelolaLayananDanHarga', [LayananController::class, 'index'])->name('mengelolaLayananDanHarga');
+Route::get('/halamanMengelolaLayanandanHarga', [LayananController::class, 'index'])->name('halamanMengelolaLayanandanHarga');
 
 // Pesanan Routes
 Route::get('/tambahPesanan', [PesananController::class, 'tambahPesanan'])->name('tambahPesanan');

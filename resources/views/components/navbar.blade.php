@@ -1,6 +1,6 @@
 <nav class="bg-gray-800" x-data="{ 
     activeMenu: '{{ request()->routeIs('halamanUtama') ? 'halamanUtama' 
-        : (request()->routeIs('mengelolaLayananDanHarga') ? 'mengelolaLayananDanHarga' 
+        : (request()->routeIs('halamanMengelolaLayanandanHarga') ? 'halamanMengelolaLayanandanHarga' 
         : (request()->routeIs('tambahPesanan') || request()->routeIs('statusPesanan') || request()->routeIs('lihatStatusPesanan') ? 'pesanan' 
         : (request()->routeIs('keuangan') || request()->routeIs('lihatStatistik') ? 'keuangan' : ''))) }}', 
     isPesananOpen: false, 
@@ -22,7 +22,7 @@
                         <!-- Tautan Navigasi -->
                         <a href="{{ route('halamanUtama') }}" :class="{'bg-gray-900 text-white': activeMenu === 'halamanUtama', 'text-gray-300': activeMenu !== 'halamanUtama'}"
                             class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700">Halaman Utama</a>
-                        <a href="{{ route('mengelolaLayananDanHarga') }}" :class="{'bg-gray-900 text-white': activeMenu === 'mengelolaLayananDanHarga', 'text-gray-300': activeMenu !== 'mengelolaLayananDanHarga'}"
+                        <a href="{{ route('halamanMengelolaLayanandanHarga') }}" :class="{'bg-gray-900 text-white': activeMenu === 'halamanMengelolaLayanandanHarga', 'text-gray-300': activeMenu !== 'halamanMengelolaLayanandanHarga'}"
                             class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700">Kelola Layanan</a>
                         <div class="relative" @mouseenter="isPesananOpen = true" @mouseleave="isPesananOpen = false">
                             <a href="#" :class="{'bg-gray-900 text-white': activeMenu === 'pesanan', 'text-gray-300': activeMenu !== 'pesanan'}"
@@ -85,7 +85,7 @@
     <div class="md:hidden" x-show="isMenuOpen" x-transition>
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
             <a href="{{ route('halamanUtama') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Halaman Utama</a>
-            <a href="{{ route('mengelolaLayananDanHarga') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Kelola Layanan</a>
+            <a href="{{ route('halamanMengelolaLayanandanHarga') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Kelola Layanan</a>
             <a href="{{ route('tambahPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Tambah Pesanan</a>
             <a href="{{ route('statusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Ubah Status Pesanan</a>
             <a href="{{ route('lihatStatusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Lihat Status Pesanan</a>

@@ -8,55 +8,37 @@
     @vite('resources/css/app.css')
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Status Pesanan</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
-      style="background-image: url('/images/administrator.png');">
+<body class="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
+style="background-image: url('/images/transaksi.png');">
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
 
         <!-- Header -->
-         <div class="text-center mt-6 mb-12">
+        <div class="text-center mt-6 mb-12">
             <h2 class="text-3xl font-bold text-white">Status Pesanan</h2>
         </div>
 
-        <div class="container mt-4 mx-auto ">
-            
+        <div class="container mt-4 mx-auto">
+
             @if(session('success'))
-            <div class="bg-green-500 text-white p-4 rounded-md mb-4">
-                {{ session('success') }}
-            </div>
+                <div class="bg-green-500 text-white p-4 rounded-md mb-4">
+                    {{ session('success') }}
+                </div>
             @endif
 
             <h1 class="text-xl font-semibold text-white">Daftar Pesanan Masuk</h1>
 
-            <div class="overflow-x-auto shadow rounded-lg mt-6">
-    <table class="min-w-full table-auto border-collapse border border-[#7C7C7C]">
-        <thead class="bg-[#FFC5C5]">
-            <tr>
-                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Kode Pesanan</th>
-                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Nama Pelanggan</th>
-                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Jenis Layanan</th>
-                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Berat (kg)</th>
-                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Total Harga</th>
-                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Tanggal Pesanan</th>
-                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Status</th>
-            </tr>
-        </thead>
-        <tbody class="bg-[#F7E9E9]">
-            @foreach($pesanans as $pesanan)
-                <tr>
-                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->kode_pesanan }}</td>
-                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->nama_pelanggan }}</td>
-                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->layanan->nama_layanan }}</td>
-                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->berat }}</td>
-                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->tanggal_pesanan }}</td>
-                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
-    <select
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mt-6">
+                @forelse($pesanans as $pesanan)
+                    <div class="p-4 rounded-lg shadow-xl bg-white border border-gray-300 relative">
+                        <div class="absolute top-5 right-5 w-32 h-10 flex items-center justify-center z-10">
+                        <select
         name="status_pesanan"
-        class="p-1 border rounded text-sm 
+        class="text-sm font-semibold py-1 px-3 uppercase w-full h-full flex items-center justify-center rounded-md
                {{ $pesanan->status_pesanan === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-white text-gray-800' }}"
         data-id="{{ $pesanan->id_pesanan }}"
         {{ $pesanan->status_pesanan === 'selesai' ? 'disabled' : '' }}
@@ -64,20 +46,45 @@
     >
         <option value="diproses" {{ $pesanan->status_pesanan === 'diproses' ? 'selected' : '' }}>Diproses</option>
         <option value="selesai" {{ $pesanan->status_pesanan === 'selesai' ? 'selected' : '' }}>Selesai</option>
-    </select>
-</td>
+        </select>
 
+                        </div>
 
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+                        <div class="relative left-6 text-left">
+                            <h3 class="text-black font-bold text-2xl">{{ $pesanan->nama_pelanggan ?? 'N/A' }}</h3>
+                            <p class="text-black font-bold text-lg">Customer</p>
+                        </div>
 
+                        <div class="my-3 witdh-full border-t border-black"></div>
+
+                        <p class="text-red-500 font-bold text-lg mt-3 text-left">{{ $pesanan->kode_pesanan }}</p>
+
+                        <div class="mt-3">
+                            <p class="flex text-gray-800 text-sm mb-3">
+                                <span class="w-48 text-left font-medium">Jenis Layanan:</span>
+                                <span class="font-bold">{{ $pesanan->layanan->nama_layanan }}</span>
+                            </p>
+                            <p class="flex text-gray-800 text-sm mb-3">
+                                <span class="w-48 text-left font-medium">Harga Pesanan:</span>
+                                <span class="font-bold">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</span>
+                            </p>
+                            <p class="flex text-gray-800 text-sm mb-3">
+                                <span class="w-48 text-left font-medium">Tanggal Pesanan Masuk:</span>
+                                <span class="font-bold">{{ $pesanan->tanggal_pesanan->format('d F Y') }}</span>
+                            </p>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-2 text-center text-gray-800">
+                        <p>Tidak ada pesanan ditemukan.</p>
+                    </div>
+                @endforelse
+            </div>
         </div>
-    </div>
+    </div> 
 
-    <script>
+</body>
+<script>
         function updateStatus(selectElement) {
             const status = selectElement.value;
             const idPesanan = selectElement.getAttribute('data-id');
@@ -108,7 +115,4 @@
             .catch(error => console.error('Error:', error));
         }
     </script>
-
-</body>
-
 </html>

@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function showLoginForm()
+    public function tampilLogin()
     {
         return view('auth.halamanLogin');
     }
 
-    public function showRegisterForm()
+    public function tampilRegister()
     {
         return view('auth.halamanRegister');
     }
@@ -25,7 +25,7 @@ class AuthController extends Controller
     {
         
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:50|unique:user',
+            'username' => 'required|string|max:50|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ], [
             'password.min' => 'Password minimal 6 karakter.'
@@ -38,13 +38,12 @@ class AuthController extends Controller
         }
 
         
-        User::create([
+        Users::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'role' => 'pelanggan',
         ]);
     
-       //message ke login
         $message = $this->registerMessage(null, true, $request->username);
         return redirect()->route('login')->with('success', $message['message'][0]);
     }
@@ -91,9 +90,9 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            $user = Auth::user();
-            if ($user->role == 'administrator') {
-                return redirect()->route('administrator.halamanUtama');
+            $users = Auth::user();
+            if ($users->role == 'administrator') {
+                return redirect()->route('administrator.halamanUtamaAdministrator');
             } else {
                 return redirect()->route('pelanggan.halamanUtama');
             }
@@ -101,6 +100,12 @@ class AuthController extends Controller
             return redirect()->route('login')->with('error', 'Username atau password salah.');
         }
     }
+
+        public function loginMesaage($message)
+    {
+        return redirect()->back()->with('error', $message);
+    }
+
 
     // Logout
     public function logout()

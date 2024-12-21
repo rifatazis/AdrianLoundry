@@ -46,23 +46,20 @@ class PesananController extends Controller
 }
 
 
-    public function ubahStatusPesanan(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'status_pesanan' => 'required|in:diproses,selesai',
-        ]);
+public function ubahStatusPesanan(Request $request, $id)
+{
+    $pesanan = Pesanan::findOrFail($id);
 
-        $pesanan = Pesanan::findOrFail($id);
-
-        if ($pesanan->status_pesanan === 'selesai') {
-            return response()->json(['success' => false, 'message' => 'Status selesai tidak dapat diubah lagi.']);
-        }
-
-        $pesanan->status_pesanan = $request->status_pesanan;
-        $pesanan->save();
-
-        return response()->json(['success' => true]);
+    if ($pesanan->status_pesanan === 'selesai') {
+        return response()->json(['success' => false, 'message' => 'Status selesai tidak dapat diubah lagi.']);
     }
+
+    $pesanan->status_pesanan = $request->status_pesanan;
+    $pesanan->save();
+
+    return response()->json(['success' => true]);
+}
+
 
     //menampilkan pesanan
     public function store(Request $request)
@@ -90,7 +87,7 @@ class PesananController extends Controller
             'status_pesanan' => 'diproses',
         ]);
     
-        return redirect()->route('tambahPesanan')->with('success', 'Pesanan berhasil disimpan. Kode Pelacakan: ' . $kode_pelacakan);
+        return redirect()->route('tambahPesanan')->with('success', 'Kode Pesanan: ' . $kode_pelacakan);
     }
 
 
