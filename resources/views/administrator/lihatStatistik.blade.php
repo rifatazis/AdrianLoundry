@@ -12,40 +12,52 @@
 </head>
 
 <body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
-      style="background-image: url('/images/administrator.png');">
+    style="background-image: url('/images/administrator.png');">
     <div class="min-h-full " x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
 
         <!-- Header -->
-        <x-header>Data Pemasukan Harian</x-header>
+        <div class="text-center mt-6 mb-12">
+            <h2 class="text-3xl font-bold text-white">Data Pemasukan Harian<</h2>
+        </div>
 
         <form action="{{ route('lihatStatistik') }}" method="GET" class="p-4">
-            <div class="flex space-x-4">
-                <div>
-                    <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan:</label>
-                    <select name="bulan"
-                        class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="1" {{ $bulan == 1 ? 'selected' : '' }}>January</option>
-                        <option value="2" {{ $bulan == 2 ? 'selected' : '' }}>February</option>
-                        <option value="3" {{ $bulan == 3 ? 'selected' : '' }}>March</option>
-                        <option value="4" {{ $bulan == 4 ? 'selected' : '' }}>April</option>
-                        <option value="5" {{ $bulan == 5 ? 'selected' : '' }}>May</option>
-                        <option value="6" {{ $bulan == 6 ? 'selected' : '' }}>June</option>
-                        <option value="7" {{ $bulan == 7 ? 'selected' : '' }}>July</option>
-                        <option value="8" {{ $bulan == 8 ? 'selected' : '' }}>August</option>
-                        <option value="9" {{ $bulan == 9 ? 'selected' : '' }}>September</option>
-                        <option value="10" {{ $bulan == 10 ? 'selected' : '' }}>October</option>
-                        <option value="11" {{ $bulan == 11 ? 'selected' : '' }}>November</option>
-                        <option value="12" {{ $bulan == 12 ? 'selected' : '' }}>December</option>
-                    </select>
+            <div class="flex justify-between items-center mb-4">
+                <div class="p-4 text-white">
+                <h1 class="text-xl font-semibold text-white">Data Pemasukan Bulan {{ \Carbon\Carbon::createFromFormat('m', $bulan)->format('F') }} Tahun {{ $tahun }}</h1>
+                    <div class="mb-4">
+                        <h2 class="text-lg font-medium">Total Pemasukan:
+                            Rp{{ number_format($totalPemasukan, 0, ',', '.') }}</h2>
+                    </div>
                 </div>
-                <div>
-                    <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun:</label>
-                    <input type="number" name="tahun" value="{{ $tahun }}"
-                        class="mt-1 p-2 border border-gray-300 rounded-md">
+                <div class="flex items-center space-x-4">
+                    <!-- Bulan -->
+                    <div class="flex-1">
+                        <select name="bulan"
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full" onchange="this.form.submit()">
+                            <option value="1" {{ $bulan == 1 ? 'selected' : '' }}>January</option>
+                            <option value="2" {{ $bulan == 2 ? 'selected' : '' }}>February</option>
+                            <option value="3" {{ $bulan == 3 ? 'selected' : '' }}>March</option>
+                            <option value="4" {{ $bulan == 4 ? 'selected' : '' }}>April</option>
+                            <option value="5" {{ $bulan == 5 ? 'selected' : '' }}>May</option>
+                            <option value="6" {{ $bulan == 6 ? 'selected' : '' }}>June</option>
+                            <option value="7" {{ $bulan == 7 ? 'selected' : '' }}>July</option>
+                            <option value="8" {{ $bulan == 8 ? 'selected' : '' }}>August</option>
+                            <option value="9" {{ $bulan == 9 ? 'selected' : '' }}>September</option>
+                            <option value="10" {{ $bulan == 10 ? 'selected' : '' }}>October</option>
+                            <option value="11" {{ $bulan == 11 ? 'selected' : '' }}>November</option>
+                            <option value="12" {{ $bulan == 12 ? 'selected' : '' }}>December</option>
+                        </select>
+                    </div>
+
+                    <!-- Tahun -->
+                    <div class="flex-1">
+                        <input type="number" name="tahun" value="{{ $tahun }}"
+                            class="p-2 border border-gray-300 rounded-md w-full " onchange="this.form.submit()">
+                    </div>                    
                 </div>
-                <button type="submit" class="mt-6 p-2 bg-blue-500 text-white rounded-md">Tampilkan</button>
+
             </div>
         </form>
 
@@ -54,16 +66,24 @@
             <canvas id="pemasukanChart"></canvas>
         </div>
 
-      <script>
+        <!-- <div class="p-4 text-center">
+            <button id="changeChartType" class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none">Ubah Tipe Grafik</button>
+        </div> -->
+    </div>
+
+</body>
+<script>
     const ctx = document.getElementById('pemasukanChart').getContext('2d');
+    let chartType = 'line';
+
     const pemasukanChart = new Chart(ctx, {
-        type: 'line',
+        type: chartType,
         data: {
             labels: @json($labels),
             datasets: [{
                 label: 'Pemasukan Harian',
                 data: @json($data),
-                borderColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgb(70, 192, 192)',
                 fill: false,
             }]
         },
@@ -74,29 +94,75 @@
                 x: {
                     title: {
                         display: true,
-                        text: 'Tanggal'
+                        text: 'Tanggal',
+                        color: 'white'
+                    },
+                    ticks: {
+                        color: 'white'
                     }
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Pemasukan (IDR)'
+                        text: 'Pemasukan (Rp)',
+                        color: 'white'
                     },
                     ticks: {
                         stepSize: 10000,
                         beginAtZero: true,
                         max: Math.max(...@json($data)) + 10000,
+                        color: 'white'
                     }
                 }
             }
         }
     });
+
+    document.getElementById('changeChartType').addEventListener('click', function() {
+        chartType = (chartType === 'line') ? 'bar' : 'line';
+        pemasukanChart.destroy();
+        pemasukanChart = new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: @json($labels),
+                datasets: [{
+                    label: 'Pemasukan Harian',
+                    data: @json($data),
+                    borderColor: 'rgb(70, 192, 192)',
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tanggal',
+                            color: 'white'
+                        },
+                        ticks: {
+                            color: 'white'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Pemasukan (Rp)',
+                            color: 'white'
+                        },
+                        ticks: {
+                            stepSize: 10000,
+                            beginAtZero: true,
+                            max: Math.max(...@json($data)) + 10000,
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+    });
 </script>
-
-
-
-    </div>
-
-</body>
 
 </html>

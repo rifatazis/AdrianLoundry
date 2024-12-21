@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-100">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,61 +9,110 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Halaman Utama</title>
 </head>
-<body class="h-full">
 
-    <div class="min-h-full" x-data="{ open: false }">
+<body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
+    style="background-image: url('/images/administrator.png');">
+    <div class="min-h-full" x-data="{ open: false, showLogoutModal: false }">
+
         <!-- Header -->
-        <x-header>Cari Pesanan</x-header>
+        <header class="bg-gray-800 shadow">
+            <div class="container mx-auto flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
+                <!-- Logo Laundry -->
+                <a href="{{ route('halamanUtama') }}" class="flex items-center">
+                    <img src="/images/icon.png" alt="Logo Laundry" class="h-12 w-12 rounded-full">
+                    <span class="ml-3 text-white text-xl font-bold">Adrian Laundry</span>
+                </a>
 
-        <div class="container mt-4 ml-6">
-            <!-- Form Pencarian Kode Unik -->
-            <form action="{{ route('pesanan.carii') }}" method="GET" class="mb-4">
-                <input type="text" name="kode_pesanan" placeholder="Masukkan kode unik pesanan" class="p-2 border rounded-md" required>
-                <button type="submit" class="p-2 bg-blue-500 text-white rounded-md">Cari</button>
-            </form>
+                <!-- Tombol Logout -->
+                <button type="button" @click="showLogoutModal = true"
+                    class="bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-2 rounded-md shadow">
+                    Logout
+                </button>
+            </div>
+        </header>
 
-            @if(session('success'))
-                <div class="bg-green-500 text-white p-4 rounded-md mb-4">
-                    {{ session('success') }}
+        <!-- Modal Logout -->
+        <div x-show="showLogoutModal" x-cloak
+            class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+            <div class="bg-white rounded-lg shadow-lg w-96">
+                <div class="px-6 py-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Konfirmasi Logout</h3>
+                    <p class="text-gray-600 mt-2">Apakah Anda yakin ingin keluar?</p>
                 </div>
-            @endif
+                <div class="flex justify-end px-6 py-3 space-x-3">
+                    <button @click="showLogoutModal = false"
+                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400">Batal</button>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-            <h1 class="text-xl font-semibold">Daftar Pesanan Masuk</h1>
+        <!-- Konten Utama -->
+        <div class="text-center py-10">
+            <h1 class="text-3xl font-bold text-white">Cari Pesanan</h1>
+            <p class="text-xl text-white mt-2">Dijamin bersih, rapi, dan wangi</p>
+        </div>
 
-            <table class="min-w-full table-auto border-collapse border border-gray-200">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 border">Kode Pesanan</th>
-                        <th class="px-4 py-2 border">Nama Pelanggan</th>
-                        <th class="px-4 py-2 border">Jenis Layanan</th>
-                        <th class="px-4 py-2 border">Berat (kg)</th>
-                        <th class="px-4 py-2 border">Total Harga</th>
-                        <th class="px-4 py-2 border">Tanggal Pesanan</th>
-                        <th class="px-4 py-2 border">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
+        @if(session('success'))
+        <div class="bg-red-500 text-white p-4 rounded-md mb-4">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        <div class="container mx-auto p-6">
+            <!-- Form Pencarian Kode Unik -->
+            <div class="flex justify-center mb-8">
+                <form action="{{ route('pesanan.carii') }}" method="GET" class="w-full max-w-md relative">
+                    <input type="text" name="kode_pesanan" placeholder="Masukkan kode pesanan"
+                        class="w-full p-4 pl-14 pr-16 border rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        required>
+                    <button type="submit" class="absolute left-0 top-1/2 transform -translate-y-1/2 p-2">
+                        <img src="{{ asset('images/search.png') }}" alt="Icon" class="w-10 h-10">
+                    </button>
+                </form>
+            </div>
+
+            <!-- Daftar Pesanan -->
+            <div class="grid grid-cols-1 sm:grid-cols-1 gap-6 text-center">
                 @if(isset($pesanans) && $pesanans->isNotEmpty())
-    @foreach($pesanans as $pesanan)
-        <tr>
-            <td class="px-4 py-2 border">{{ $pesanan->kode_pesanan }}</td>
-            <td class="px-4 py-2 border">{{ $pesanan->user->username ?? 'Pelanggan Baru' }}</td>
-            <td class="px-4 py-2 border">{{ $pesanan->layanan->nama_layanan }}</td>
-            <td class="px-4 py-2 border">{{ $pesanan->berat }}</td>
-            <td class="px-4 py-2 border">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-            <td class="px-4 py-2 border">{{ $pesanan->tanggal_pesanan }}</td>
-            <td class="px-4 py-2 border">{{ ucfirst($pesanan->status_pesanan) }}</td>
-        </tr>
-    @endforeach
-@else
-    <tr>
-        <td colspan="7" class="px-4 py-2 border text-center">Tidak ada data pesanan.</td>
-    </tr>
-@endif
+                @foreach($pesanans as $pesanan)
+                <div class="p-4 rounded-lg shadow-lg bg-transparent">
+                    <img src="{{ $pesanan->layanan->gambar ? asset('storage/' . $pesanan->layanan->gambar) : asset('images/default.png') }}"
+                        alt="{{ $pesanan->layanan->nama_layanan }}"
+                        class="w-32 h-32 object-cover object-center mx-auto rounded-lg shadow-md">
 
-                </tbody>
-            </table>
+                    <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->nama_layanan }}</h3>
+
+                    <p class="text-sm text-white">
+                        {{ $pesanan->berat }} kg - Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}
+                    </p>
+
+                    <p class="text-sm text-white">
+                        {{ $pesanan->tanggal_pesanan->format('Y-m-d H:i:s') }}
+                    </p>
+
+                    <p class="text-sm text-white">
+                        Nama Pelanggan : {{ $pesanan->user->username ?? 'Pelanggan Baru' }}
+                    </p>
+
+                    <p class="text-sm text-white">
+                        Kode : {{ $pesanan->kode_pesanan }}
+                    </p>
+
+                    <p
+                        class="text-sm font-semibold {{ $pesanan->status_pesanan === 'selesai' ? 'text-green-500' : 'text-yellow-500' }}">
+                        {{ ucfirst($pesanan->status_pesanan) }}
+                    </p>
+                </div>
+                @endforeach
+                @endif
+            </div>
         </div>
     </div>
 </body>
+
 </html>

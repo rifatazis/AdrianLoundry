@@ -14,7 +14,7 @@
         <div class="w-1/2 h-full relative hidden lg:block">
             <img src="/images/image1.png" alt="Gambar" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black opacity-25"></div>
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8 ">
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8">
                 <h1 class="text-4xl font-bold mb-4">Welcome Back to Adrian Laundry!</h1>
                 <p class="max-w-md text-lg">
                     Log in to manage your laundry services easily and efficiently.
@@ -22,21 +22,21 @@
             </div>
         </div>
 
-        <!-- Bagian Kanan  -->
+        <!-- Bagian Kanan -->
         <div class="w-full lg:w-1/2 flex p-0 h-screen">
             <div class="w-full max-w-sm mx-auto flex flex-col justify-start pt-20">
 
-                <h1 class="text-8xl font-bold text-gray-900 mb-4 text-center">Login</h1>
+                <h1 class="text-8xl font-bold text-gray-900 mb-2 text-center">Login</h1>
                 <p class="text-center text-lg font-medium text-gray-700 mb-12">Welcome back friends!</p>
 
+                <!-- Notifikasi Error -->
                 @if(session('error'))
-                    <div class="mb-4 p-3 text-red-700 bg-red-100 rounded-lg">
+                    <div id="errorNotification" class="p-3 text-red-700 bg-red-100 rounded-lg transition duration-500 ease-in-out">
                         {{ session('error') }}
                     </div>
                 @endif
 
-
-                <form action="{{ route('login') }}" method="POST" class="space-y-6">
+                <form action="{{ route('login') }}" method="POST" class="space-y-6 mt-4">
                     @csrf
 
                     <div>
@@ -46,7 +46,7 @@
 
                     <div>
                         <input type="password" name="password" id="password" placeholder="PASSWORD" required
-                            class="w-full mb-5 px-4 py-3 border border-gray-300 bg-[#DFE3EF] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            class="w-full mb-6 px-4 py-3 border border-gray-300 bg-[#DFE3EF] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
 
                     <div class="flex justify-center">
@@ -64,6 +64,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const errorNotification = document.getElementById('errorNotification');
+            if (errorNotification) {
+                setTimeout(() => {
+                    errorNotification.classList.add('opacity-0'); 
+                    setTimeout(() => errorNotification.remove(), 500);
+                }, 5000);
+            }
+        });
+    </script>
 </body>
 
 </html>

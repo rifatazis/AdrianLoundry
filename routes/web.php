@@ -5,7 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeuanganController;
-use App\Http\Controllers\PemasukanController;
 use App\Models\Layanan;
 
 // Route halaman login
@@ -22,7 +21,8 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 // Administrator Routes
 Route::get('administrator/halamanUtama', function () {
-    return view('administrator.halamanUtama');
+    $layanan = Layanan::all();
+    return view('administrator.halamanUtama', compact('layanan'));
 })->middleware(['auth', 'role:administrator'])->name('administrator.halamanUtama');
 
 // Pelanggan Routes
@@ -49,12 +49,13 @@ Route::get('/statusPesanan', [PesananController::class, 'statusPesanan'])->name(
 Route::patch('/pesanan/{id}/ubah-status', [PesananController::class, 'ubahStatusPesanan'])->name('ubahStatusPesanan');
 
 // Keuangan Routes
-Route::get('/keuangan', [PesananController::class, 'dataPemasukan'])->name('keuangan');
+Route::get('/keuangan', [KeuanganController::class, 'dataPemasukan'])->name('keuangan');
 Route::get('/data-pemasukan', [KeuanganController::class, 'index'])->name('data.pemasukan');
+Route::get('/lihatStatistik', [KeuanganController::class, 'statistik'])->name('lihatStatistik');
+
 
 // Status Pesanan Routes
 Route::get('/lihatStatusPesanan', [PesananController::class, 'lihatStatusPesanan'])->name('lihatStatusPesanan');
 Route::get('/pesanan/cari', [PesananController::class, 'cari'])->name('pesanan.cari');
-Route::get('/lihatStatistik', [PesananController::class, 'statistik'])->name('lihatStatistik');
 Route::get('/pesanan/carii', [PesananController::class, 'carii'])->name('pesanan.carii');
 Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');

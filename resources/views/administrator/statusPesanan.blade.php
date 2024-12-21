@@ -17,7 +17,9 @@
         <x-navbar></x-navbar>
 
         <!-- Header -->
-        <x-header>Status Pesanan</x-header>
+         <div class="text-center mt-6 mb-12">
+            <h2 class="text-3xl font-bold text-white">Status Pesanan</h2>
+        </div>
 
         <div class="container mt-4 mx-auto ">
             
@@ -29,45 +31,49 @@
 
             <h1 class="text-xl font-semibold text-white">Daftar Pesanan Masuk</h1>
 
-            <table class="min-w-full table-auto border-collapse border border-gray-200">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 border text-white">Kode Pesanan</th>
-                        <th class="px-4 py-2 border text-white">Nama Pelanggan</th>
-                        <th class="px-4 py-2 border text-white">Jenis Layanan</th>
-                        <th class="px-4 py-2 border text-white">Berat (kg)</th>
-                        <th class="px-4 py-2 border text-white">Total Harga</th>
-                        <th class="px-4 py-2 border text-white">Tanggal Pesanan</th>
-                        <th class="px-4 py-2 border text-white">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pesanans as $pesanan)
-                    <tr>
-                        <td class="px-4 py-2 border text-white">{{ $pesanan->kode_pesanan }}</td>
-                        <td class="px-4 py-2 border text-white">{{ $pesanan->nama_pelanggan }}</td>
-                        <td class="px-4 py-2 border text-white">{{ $pesanan->layanan->nama_layanan }}</td>
-                        <td class="px-4 py-2 border text-white">{{ $pesanan->berat }}</td>
-                        <td class="px-4 py-2 border text-white">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-                        <td class="px-4 py-2 border text-white">{{ $pesanan->tanggal_pesanan }}</td>
-                        <td class="px-4 py-2 border text-white">
-                            <select
-                                name="status_pesanan"
-                                class="p-1 border rounded"
-                                data-id="{{ $pesanan->id_pesanan }}"
-                                style="background-color: {{ $pesanan->status_pesanan === 'selesai' ? '#d1fae5' : '#ffffff' }}; color: {{ $pesanan->status_pesanan === 'selesai' ? '#065f46' : '#000000' }};"
-                                {{ $pesanan->status_pesanan === 'selesai' ? 'disabled' : '' }}
-                                onchange="updateStatus(this)"
-                            >
-                                <option value="diproses" {{ $pesanan->status_pesanan === 'diproses' ? 'selected' : '' }}>Diproses</option>
-                                <option value="selesai" {{ $pesanan->status_pesanan === 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                <option value="dibatalkan" {{ $pesanan->status_pesanan === 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
-                            </select>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="overflow-x-auto shadow rounded-lg mt-6">
+    <table class="min-w-full table-auto border-collapse border border-[#7C7C7C]">
+        <thead class="bg-[#FFC5C5]">
+            <tr>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Kode Pesanan</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Nama Pelanggan</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Jenis Layanan</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Berat (kg)</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Total Harga</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Tanggal Pesanan</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Status</th>
+            </tr>
+        </thead>
+        <tbody class="bg-[#F7E9E9]">
+            @foreach($pesanans as $pesanan)
+                <tr>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->kode_pesanan }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->nama_pelanggan }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->layanan->nama_layanan }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->berat }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->tanggal_pesanan }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+    <select
+        name="status_pesanan"
+        class="p-1 border rounded text-sm 
+               {{ $pesanan->status_pesanan === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-white text-gray-800' }}"
+        data-id="{{ $pesanan->id_pesanan }}"
+        {{ $pesanan->status_pesanan === 'selesai' ? 'disabled' : '' }}
+        onchange="updateStatus(this)"
+    >
+        <option value="diproses" {{ $pesanan->status_pesanan === 'diproses' ? 'selected' : '' }}>Diproses</option>
+        <option value="selesai" {{ $pesanan->status_pesanan === 'selesai' ? 'selected' : '' }}>Selesai</option>
+    </select>
+</td>
+
+
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
         </div>
     </div>
 

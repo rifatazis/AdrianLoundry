@@ -11,71 +11,72 @@
 </head>
 
 <body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
-      style="background-image: url('/images/administrator.png');">
+    style="background-image: url('/images/administrator.png');">
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
 
         <!-- Header -->
-        <x-header>Status Pesanan</x-header>
+        <div class="text-center py-10">
+            <h1 class="text-3xl font-bold text-white">Status Pesanan</h1>
+            <p class="text-xl text-white mt-2">Dijamin bersih, rapi, dan wangi</p>
+        </div>
 
-        <div class="container mt-4 mx-auto p-4">
-
-            <!-- Form Pencarian Kode Unik -->
-            <div class="flex justify-end">
-                <form action="{{ route('pesanan.cari') }}" method="GET" class="mb-4">
-                    <input 
-                        type="text" 
-                        name="kode_pesanan" 
-                        placeholder="Masukkan kode unik pesanan" 
-                        class="p-2 border rounded-md"
-                        required
-                    >
-                    <button type="submit" class="p-2 bg-blue-500 text-white rounded-md">Cari</button>
+        <div class="container mx-auto p-6">
+            <!-- Form Pencarian -->
+            <div class="flex justify-center mb-8">
+                <form action="{{ route('pesanan.cari') }}" method="GET" class="w-full max-w-md relative">
+                    <input type="text" name="kode_pesanan" placeholder=" Cari Pesanan..."
+                        class="w-full p-4 pl-12 pr-16 border rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        required>
+                    <button type="submit" class="absolute left-0 top-1/2 transform -translate-y-1/2 p-2">
+                        <img src="{{ asset('images/search.png') }}" alt="Icon" class="w-10 h-10">
+                    </button>
                 </form>
             </div>
 
-            @if(session('success'))
-                <div class="bg-green-500 text-white p-4 rounded-md mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
 
-            <h1 class="text-xl font-semibold text-white mb-4">Daftar Pesanan Masuk</h1>
+            <!-- Pilihan Layanan -->
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 text-center">
+    @forelse($pesanans as $pesanan)
+        <div class="p-4 rounded-lg shadow-lg bg-transparent">
+            <img src="{{ $pesanan->layanan->gambar ? asset('storage/' . $pesanan->layanan->gambar) : asset('images/default.png') }}"
+                alt="{{ $pesanan->layanan->nama_layanan }}"
+                class="w-32 h-32 object-cover object-center mx-auto rounded-lg shadow-md">
 
-            <table class="min-w-full table-auto border-collapse border border-gray-200">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 border text-white">Kode Pesanan</th>
-                        <th class="px-4 py-2 border text-white">Nama Pelanggan</th>
-                        <th class="px-4 py-2 border text-white">Jenis Layanan</th>
-                        <th class="px-4 py-2 border text-white">Berat (kg)</th>
-                        <th class="px-4 py-2 border text-white">Total Harga</th>
-                        <th class="px-4 py-2 border text-white">Tanggal Pesanan</th>
-                        <th class="px-4 py-2 border text-white">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($pesanans as $pesanan)
-                        <tr>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->kode_pesanan }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->nama_pelanggan }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->layanan->nama_layanan }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->berat }}</td>
-                            <td class="px-4 py-2 border text-white">Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->tanggal_pesanan->format('Y-m-d H:i:s') }}</td>
-                            <td class="px-4 py-2 border text-white">{{ ucfirst($pesanan->status_pesanan) }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="px-4 py-2 text-center border">Tidak ada pesanan ditemukan.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+            <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->nama_layanan }}</h3>
+
+            <p class="text-sm text-white">
+                {{ $pesanan->berat }} kg - Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}
+            </p>
+
+            <p class="text-sm text-gray-500">
+                {{ $pesanan->tanggal_pesanan->format('Y-m-d H:i:s') }}
+            </p>
+
+            <p class="text-sm text-gray-500">
+                <strong>Nama Pelanggan:</strong> {{ $pesanan->nama_pelanggan ?? 'N/A' }}
+            </p>
+
+            <p class="text-sm text-gray-500">
+                <strong>Kode Pesanan:</strong> {{ $pesanan->kode_pesanan }}
+            </p>
+
+            <p class="text-sm font-semibold {{ $pesanan->status_pesanan === 'selesai' ? 'text-green-500' : 'text-yellow-500' }}">
+                {{ ucfirst($pesanan->status_pesanan) }}
+            </p>
+        </div>
+    @empty
+        <div class="col-span-3 text-center text-white">
+            <p>Tidak ada pesanan ditemukan.</p>
+        </div>
+    @endforelse
+</div>
+
+
+
         </div>
     </div>
-
 </body>
 
 </html>

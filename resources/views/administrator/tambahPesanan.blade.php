@@ -11,14 +11,16 @@
 </head>
 
 <body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
-      style="background-image: url('/images/administrator.png');">
+    style="background-image: url('/images/administrator.png');">
 
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
 
         <!-- Header -->
-        <x-header>Tambah Pesanan</x-header>
+        <div class="text-center mt-6 mb-12">
+            <h2 class="text-3xl font-bold text-white">Tambah Pesanan</h2>
+        </div>
 
         @if(session('success'))
             <div class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
@@ -41,44 +43,44 @@
                 </button>
             </div>
 
-
             @if(session('success'))
                 <div class="bg-green-500 text-white p-4 rounded-md mb-4">
                     {{ session('success') }} - Kode Pesanan: <strong>{{ session('kode_pesanan') }}</strong>
                 </div>
             @endif
 
+            <div class="overflow-x-auto shadow rounded-lg mt-6">
+    <table class="min-w-full table-auto border-collapse border border-black">
+        <thead class="bg-[#FFC5C5]">
+            <tr>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Kode Pesanan</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Nama Pelanggan</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Jenis Layanan</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Berat (kg)</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Total Harga</th>
+                <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">Tanggal Pesanan</th>
+            </tr>
+        </thead>
+        <tbody class="bg-[#F7E9E9]">
+            @foreach($pesanans as $pesanan)
+                <tr>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->kode_pesanan }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->nama_pelanggan }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->layanan->nama_layanan }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->berat }}</td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                        Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}
+                    </td>
+                    <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">{{ $pesanan->tanggal_pesanan }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
 
 
-            <table class="min-w-full table-auto border-collapse border border-gray-200">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 border text-white">Kode Pesanan</th>
-                        <th class="px-4 py-2 border text-white">Nama Pelanggan</th>
-                        <th class="px-4 py-2 border text-white">Jenis Layanan</th>
-                        <th class="px-4 py-2 border text-white">Berat (kg)</th>
-                        <th class="px-4 py-2 border text-white">Total Harga</th>
-                        <th class="px-4 py-2 border text-white">Tanggal Pesanan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pesanans as $pesanan)
-                        <tr>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->kode_pesanan }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->nama_pelanggan }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->layanan->nama_layanan }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->berat }}</td>
-                            <td class="px-4 py-2 border text-white">
-                                Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-                            <td class="px-4 py-2 border text-white">{{ $pesanan->tanggal_pesanan }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-
-
+            <!-- modal -->
             <div x-show="open" x-transition @click.away="open = false"
                 class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-md max-w-sm w-full">
@@ -117,7 +119,8 @@
                             </div>
                             <div class="mb-4">
                                 <label for="tanggal_pesanan" class="block">Tanggal Pesanan Masuk</label>
-                                <input type="datetime-local" name="tanggal_pesanan" class="w-full p-2 border rounded-md" required>
+                                <input type="datetime-local" name="tanggal_pesanan" class="w-full p-2 border rounded-md"
+                                    required>
                             </div>
                             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Simpan</button>
                         </form>
@@ -142,20 +145,20 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-    const inputTanggal = document.querySelector('input[name="tanggal_pesanan"]');
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); 
-    const day = String(now.getDate()).padStart(2, '0'); 
-    const hours = String(now.getHours()).padStart(2, '0'); 
-    const minutes = String(now.getMinutes()).padStart(2, '0'); 
-    
-    const defaultDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+        const inputTanggal = document.querySelector('input[name="tanggal_pesanan"]');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
 
-    if (inputTanggal) {
-        inputTanggal.value = defaultDateTime; 
-    }
-});
+        const defaultDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        if (inputTanggal) {
+            inputTanggal.value = defaultDateTime;
+        }
+    });
 
 </script>
 

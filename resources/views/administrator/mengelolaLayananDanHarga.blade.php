@@ -11,11 +11,14 @@
     <title>Mengelola Layanan</title>
 </head>
 
-<body class="h-auto bg-cover bg-center bg-no-repeat bg-fixed"
-      style="background-image: url('/images/administrator.png');">
+<body class="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
+    style="background-image: url('/images/administrator.png');">
     <div class="min-h-full" x-data="{ open: false, editLayanan: null }">
         <x-navbar></x-navbar>
-        <x-header>Mengelola Layanan</x-header>
+
+        <div class="text-center mt-6 mb-12">
+            <h2 class="text-3xl font-bold text-white">Layanan Tersedia</h2>
+        </div>
 
         @if (session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
@@ -24,7 +27,7 @@
         @endif
 
         <main class="container mx-auto py-6">
-            <div class="mb-6">
+            <div class="mb-6 flex justify-end">
                 <button @click="open = true" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">
                     Tambah Layanan
                 </button>
@@ -105,25 +108,33 @@
             </div>
 
             <!-- Tabel Layanan -->
-            <div class="overflow-x-auto  shadow rounded-lg mt-6">
-                <table class="min-w-full table-auto border-collapse border border-gray-200">
-                    <thead>
+            <div class="overflow-x-auto  shadow rounded-lg mt-3">
+                <table class="min-w-full table-auto border-collapse border border-black ">
+                    <thead class="bg-[#FFC5C5]">
                         <tr>
-                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">No</th>
-                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Nama Layanan</th>
-                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Harga</th>
-                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Gambar</th>
-                            <th class="px-4 py-2 text-sm font-semibold text-white border text-center">Aksi</th>
+                            <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
+                                No</th>
+                            <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
+                                Nama Layanan</th>
+                            <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
+                                Harga</th>
+                            <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
+                                Gambar</th>
+                            <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
+                                Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-[#F7E9E9]">
                         @foreach ($layanan as $index => $item)
                             <tr class="">
-                                <td class="px-4 py-2 text-sm border text-white text-center">{{ $index + 1 }}</td>
-                                <td class="px-4 py-2 text-sm border text-white text-center">{{ $item->nama_layanan }}</td>
-                                <td class="px-4 py-2 text-sm border text-white text-center">Rp
-                                    {{ number_format($item->harga, 0, ',', '.') }}</td>
-                                <td class="px-4 py-2 border text-white text-center">
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                                    {{ $index + 1 }}</td>
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                                    {{ $item->nama_layanan }}</td>
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">Rp
+                                    {{ number_format($item->harga, 0, ',', '.') }}
+                                </td>
+                                <td class="px-4 py-2 border border-[#7C7C7C] text-black text-center">
                                     @if($item->gambar)
                                         <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar Layanan"
                                             class="w-16 h-16 object-cover rounded mx-auto">
@@ -131,19 +142,19 @@
                                         <p class="text-gray-500">Tidak ada gambar</p>
                                     @endif
                                 </td>
-                                <td class="px-4 py-2 border text-white text-center">
+                                <td class="px-2 py-2 border border-[#7C7C7C] text-white text-center">
                                     <button @click="editLayanan = {{ $item }}"
-                                        class="bg-yellow-500 text-white px-4 py-2 rounded mr-2">Edit
+                                        class="bg-yellow-500 text-white px-3 py-2 rounded mr-2">Ubah
                                     </button>
-                                    
+
                                     <form action="{{ route('layanan.destroy', $item->id_layanan) }}" method="POST"
                                         style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded mr-2"
+                                        <button type="submit" class="bg-red-500 text-white px-3 py-2 rounded mr-2"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus layanan ini?')">Hapus</button>
                                     </form>
-                                   
+
                                 </td>
                             </tr>
                         @endforeach
