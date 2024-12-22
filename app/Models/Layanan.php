@@ -13,7 +13,8 @@ class Layanan extends Model
     protected $fillable = [
         'nama_layanan',
         'harga',
-        'gambar'
+        'gambar',
+        'jenis_pakaian',
     ];
 
     public function pesanan()

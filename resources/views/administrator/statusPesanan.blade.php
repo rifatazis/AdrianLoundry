@@ -36,17 +36,15 @@ style="background-image: url('/images/transaksi.png');">
                 @forelse($pesanans as $pesanan)
                     <div class="p-4 rounded-lg shadow-xl bg-white border border-gray-300 relative">
                         <div class="absolute top-5 right-5 w-32 h-10 flex items-center justify-center z-10">
-                        <select
-        name="status_pesanan"
-        class="text-sm font-semibold py-1 px-3 uppercase w-full h-full flex items-center justify-center rounded-md
-               {{ $pesanan->status_pesanan === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-gray-500 text-white' }}"
-        data-id="{{ $pesanan->id_pesanan }}"
-        {{ $pesanan->status_pesanan === 'selesai' ? 'disabled' : '' }}
-        onchange="updateStatus(this)"
-    >
-        <option value="diproses" {{ $pesanan->status_pesanan === 'diproses' ? 'selected' : '' }}>Diproses</option>
-        <option value="selesai" {{ $pesanan->status_pesanan === 'selesai' ? 'selected' : '' }}>Selesai</option>
-        </select>
+                        <select name="status_pesanan"
+                            class="text-sm font-semibold py-1 px-3 uppercase w-full h-full flex items-center justify-center rounded-md
+                                {{ $pesanan->status_pesanan === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-gray-500 text-white' }}"
+                            data-id="{{ $pesanan->id_pesanan }}"
+                            {{ $pesanan->status_pesanan === 'selesai' ? 'disabled' : '' }}
+                            onchange="updateStatus(this)">
+                        <option value="diproses" {{ $pesanan->status_pesanan === 'diproses' ? 'selected' : '' }}>Diproses</option>
+                        <option value="selesai" {{ $pesanan->status_pesanan === 'selesai' ? 'selected' : '' }}>Selesai</option>
+                        </select>
 
                         </div>
 
@@ -63,6 +61,10 @@ style="background-image: url('/images/transaksi.png');">
                             <p class="flex text-gray-800 text-sm mb-3">
                                 <span class="w-48 text-left font-medium">Jenis Layanan:</span>
                                 <span class="font-bold">{{ $pesanan->layanan->nama_layanan }}</span>
+                            </p>
+                            <p class="flex text-gray-800 text-sm mb-3">
+                                <span class="w-48 text-left font-medium">Jenis Pakaian:</span>
+                                <span class="font-bold">{{ $pesanan->layanan->jenis_pakaian }}</span>
                             </p>
                             <p class="flex text-gray-800 text-sm mb-3">
                                 <span class="w-48 text-left font-medium">Harga Pesanan:</span>

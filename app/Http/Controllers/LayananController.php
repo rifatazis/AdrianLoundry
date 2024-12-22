@@ -11,7 +11,6 @@ class LayananController extends Controller
 
     public function index()
     {
-        // $layanan = Layanan::all();
         $layanan = Layanan::paginate(5);
         return view('administrator.halamanMengelolaLayanandanHarga', compact('layanan'));
     }
@@ -23,6 +22,7 @@ class LayananController extends Controller
             'nama_layanan' => 'required|max:100',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'jenis_pakaian' => 'required|string',
         ]);
 
         $gambarPath = null;
@@ -34,6 +34,7 @@ class LayananController extends Controller
             'nama_layanan' => $request->nama_layanan,
             'harga' => $request->harga,
             'gambar' => $gambarPath,
+            'jenis_pakaian' => $request->jenis_pakaian,
         ]);
 
         return redirect()->route('layanan.index')->with('success', 'Layanan berhasil ditambahkan!');
@@ -46,19 +47,19 @@ class LayananController extends Controller
         return view('administrator.halamanUtamaAdministrator', compact('layanan'));
     }
 
-
-
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama_layanan' => 'required|max:100',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'jenis_pakaian' => 'required|string',
         ]);
 
         $layanan = Layanan::findOrFail($id);
         $layanan->nama_layanan = $request->nama_layanan;
         $layanan->harga = $request->harga;
+        $layanan->jenis_pakaian = $request->jenis_pakaian; 
 
         if ($request->hasFile('gambar')) {
             if ($layanan->gambar) {

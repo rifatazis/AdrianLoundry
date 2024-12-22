@@ -54,6 +54,12 @@
                                 class="w-full border px-4 py-2 rounded" required>
                         </div>
                         <div class="mb-4">
+                            <label for="jenis_pakaian" class="block text-sm font-semibold text-white">Jenis
+                                Pakaian</label>
+                            <input type="text" id="jenis_pakaian" name="jenis_pakaian"
+                                class="w-full border px-4 py-2 rounded" required>
+                        </div>
+                        <div class="mb-4">
                             <label for="harga" class="block text-sm font-semibold text-white">Harga</label>
                             <input type="number" id="harga" name="harga" class="w-full border px-4 py-2 rounded"
                                 required>
@@ -79,15 +85,22 @@
                 x-transition:leave-end="opacity-0"
                 class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50" x-cloak>
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/3"
-                style="background-image: url('/images/tambah.png'); background-size: cover; background-position: center;">
+                    style="background-image: url('/images/tambah.png'); background-size: cover; background-position: center;">
                     <h2 class="text-2xl mb-4">Edit Layanan</h2>
                     <form x-bind:action="'{{ url('layanan') }}/' + editLayanan.id_layanan" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-4">
-                            <label for="nama_layanan" class="block text-sm font-semibold text-white">Nama Layanan</label>
+                            <label for="nama_layanan" class="block text-sm font-semibold text-white">Nama
+                                Layanan</label>
                             <input type="text" id="nama_layanan" name="nama_layanan" :value="editLayanan . nama_layanan"
+                                class="w-full border px-4 py-2 rounded" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="jenis_pakaian" class="block text-sm font-semibold text-white">Jenis
+                                Pakaian</label>
+                            <input type="text" id="jenis_pakaian" name="jenis_pakaian" :value="editLayanan . jenis_pakaian"
                                 class="w-full border px-4 py-2 rounded" required>
                         </div>
                         <div class="mb-4">
@@ -152,6 +165,8 @@
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
                                 Nama Layanan</th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
+                                Jenis Pakaian</th>
+                            <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
                                 Harga</th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
                                 Gambar</th>
@@ -167,6 +182,9 @@
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
                                     {{ $item->nama_layanan }}
+                                </td>
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                                    {{ $item->jenis_pakaian }}
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
                                     Rp {{ number_format($item->harga, 0, ',', '.') }}

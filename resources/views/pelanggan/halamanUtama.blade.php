@@ -86,13 +86,14 @@
                         class="w-32 h-32 object-cover object-center mx-auto rounded-lg shadow-md">
 
                     <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->nama_layanan }}</h3>
+                    <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->jenis_pakaian }}</h3>
 
                     <p class="text-sm text-white">
                         {{ $pesanan->berat }} kg - Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}
                     </p>
 
                     <p class="text-sm text-white">
-                        {{ $pesanan->tanggal_pesanan->format('Y-m-d H:i:s') }}
+                        {{ $pesanan->tanggal_pesanan->format('d-m-Y') }}
                     </p>
 
                     <p class="text-sm text-white">

@@ -19,19 +19,19 @@
 
         <!-- Header -->
         <div class="text-center mt-6 mb-12">
-            <h2 class="text-3xl font-bold text-white">Data Pemasukan Harian<</h2>
+            <h2 class="text-3xl font-bold text-white">Data Pemasukan Harian</h2>
         </div>
 
         <form action="{{ route('lihatStatistik') }}" method="GET" class="p-4">
             <div class="flex justify-between items-center mb-4">
-                <div class="p-4 text-white">
+                <div class="pl-80 text-white">
                 <h1 class="text-xl font-semibold text-white">Data Pemasukan Bulan {{ \Carbon\Carbon::createFromFormat('m', $bulan)->format('F') }} Tahun {{ $tahun }}</h1>
                     <div class="mb-4">
                         <h2 class="text-lg font-medium">Total Pemasukan:
                             Rp{{ number_format($totalPemasukan, 0, ',', '.') }}</h2>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-4 pr-80">
                     <!-- Bulan -->
                     <div class="flex-1">
                         <select name="bulan"
@@ -62,13 +62,11 @@
         </form>
 
         <!-- Grafik Pemasukan Harian -->
-        <div class="p-4 ">
-            <canvas id="pemasukanChart"></canvas>
-        </div>
+        <div class="p-4 max-w-4xl mx-auto bg-gray-200">
+    <canvas id="pemasukanChart" class="w-full h-72"></canvas>
+</div>
 
-        <!-- <div class="p-4 text-center">
-            <button id="changeChartType" class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none">Ubah Tipe Grafik</button>
-        </div> -->
+
     </div>
 
 </body>
@@ -77,92 +75,46 @@
     let chartType = 'line';
 
     const pemasukanChart = new Chart(ctx, {
-        type: chartType,
-        data: {
-            labels: @json($labels),
-            datasets: [{
-                label: 'Pemasukan Harian',
-                data: @json($data),
-                borderColor: 'rgb(70, 192, 192)',
-                fill: false,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Tanggal',
-                        color: 'white'
-                    },
-                    ticks: {
-                        color: 'white'
-                    }
+    type: chartType,
+    data: {
+        labels: @json($labels),
+        datasets: [{
+            label: 'Pemasukan Harian',
+            data: @json($data),
+            borderColor: 'green',
+            fill: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Tanggal',
+                    color: 'black'  
                 },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Pemasukan (Rp)',
-                        color: 'white'
-                    },
-                    ticks: {
-                        stepSize: 10000,
-                        beginAtZero: true,
-                        max: Math.max(...@json($data)) + 10000,
-                        color: 'white'
-                    }
+                ticks: {
+                    color: 'black'  
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Pemasukan (Rp)',
+                    color: 'black'  
+                },
+                ticks: {
+                    stepSize: 10000,
+                    beginAtZero: true,
+                    max: Math.max(...@json($data)) + 10000,
+                    color: 'black' 
                 }
             }
         }
-    });
-
-    document.getElementById('changeChartType').addEventListener('click', function() {
-        chartType = (chartType === 'line') ? 'bar' : 'line';
-        pemasukanChart.destroy();
-        pemasukanChart = new Chart(ctx, {
-            type: chartType,
-            data: {
-                labels: @json($labels),
-                datasets: [{
-                    label: 'Pemasukan Harian',
-                    data: @json($data),
-                    borderColor: 'rgb(70, 192, 192)',
-                    fill: false,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Tanggal',
-                            color: 'white'
-                        },
-                        ticks: {
-                            color: 'white'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Pemasukan (Rp)',
-                            color: 'white'
-                        },
-                        ticks: {
-                            stepSize: 10000,
-                            beginAtZero: true,
-                            max: Math.max(...@json($data)) + 10000,
-                            color: 'white'
-                        }
-                    }
-                }
-            }
-        });
-    });
+    }
+});
 </script>
 
 </html>

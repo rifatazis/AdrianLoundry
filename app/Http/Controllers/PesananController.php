@@ -69,6 +69,7 @@ public function ubahStatusPesanan(Request $request, $id)
             'id_layanan' => 'required|exists:layanan,id_layanan',
             'berat' => 'required|numeric|min:0.1',
             'tanggal_pesanan' => 'required|date',
+            // 'jenis_pakaian' => 'required|string|max:255',
         ]);
     
         $layanan = Layanan::find($request->id_layanan);
@@ -84,6 +85,7 @@ public function ubahStatusPesanan(Request $request, $id)
             'berat' => $request->berat,
             'total_harga' => $total_harga,
             'tanggal_pesanan' => $request->tanggal_pesanan,
+            // 'jenis_pakaian' => $request->jenis_pakaian,
             'status_pesanan' => 'diproses',
         ]);
     

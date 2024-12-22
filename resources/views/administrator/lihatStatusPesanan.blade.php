@@ -11,7 +11,7 @@
 </head>
 
 <body class="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-style="background-image: url('/images/transaksi.png');">
+    style="background-image: url('/images/transaksi.png');">
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
@@ -38,29 +38,31 @@ style="background-image: url('/images/transaksi.png');">
             <!-- Pilihan Layanan -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($pesanans as $pesanan)
-                                <div
-                                    class="p-6 rounded-lg shadow-xl bg-gray hover:shadow-2xl transition-all duration-300 ease-in-out flex items-center">
-                                    <img src="{{ $pesanan->layanan->gambar ? asset('storage/' . $pesanan->layanan->gambar) : asset('images/default.png') }}"
-                                        alt="{{ $pesanan->layanan->nama_layanan }}"
-                                        class="w-32 h-32 object-cover object-center rounded-full border-4 border-gray-200 shadow-md mr-6">
+                    <div
+                        class="p-6 rounded-lg shadow-xl bg-gray hover:shadow-2xl transition-all duration-300 ease-in-out flex items-center">
+                        <img src="{{ $pesanan->layanan->gambar ? asset('storage/' . $pesanan->layanan->gambar) : asset('images/default.png') }}"
+                            alt="{{ $pesanan->layanan->nama_layanan }}"
+                            class="w-32 h-32 object-cover object-center rounded-full border-4 border-gray-200 shadow-md mr-6">
 
-                                    <div class="flex-1">
-                                        <p class="text-gray-800 text-sm mb-2 font-semibold">{{ $pesanan->layanan->nama_layanan }}</p>
-                                        <p class="text-gray-800 text-sm mb-2 font-semibold">{{ $pesanan->berat }} kg -
-                                            Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</p>
-                                        <p class="text-gray-800 text-sm mb-2 font-semibold">
-                                            {{ $pesanan->tanggal_pesanan->format('d F Y') }}</p>
-                                        <p class="text-gray-800 text-sm mb-2 font-semibold">{{ $pesanan->nama_pelanggan ?? 'N/A' }}</p>
-                                        <p class="text-gray-800 text-sm mb-2 font-semibold">Kode Pesanan : {{ $pesanan->kode_pesanan }}
-                                        </p>
-                                        <p class="text-sm font-semibold 
-                                            {{ $pesanan->status_pesanan === 'selesai' ? 'text-white bg-green-500' : 'text-white bg-yellow-500' }} 
-                                            mt-4 px-3 py-1 rounded-full inline-block">
-                                            {{ ucfirst($pesanan->status_pesanan) }}
-                                        </p>
+                        <div class="flex-1">
+                            <p class="text-gray-800 text-sm mb-2 font-semibold">{{ $pesanan->layanan->nama_layanan }}</p>
+                            <p class="text-gray-800 text-sm mb-2 font-semibold">{{ $pesanan->layanan->jenis_pakaian }}</p>
+                            <p class="text-gray-800 text-sm mb-2 font-semibold">{{ $pesanan->berat }} kg -
+                                Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</p>
+                            <p class="text-gray-800 text-sm mb-2 font-semibold">
+                                {{ $pesanan->tanggal_pesanan->format('d F Y') }}
+                            </p>
+                            <p class="text-gray-800 text-sm mb-2 font-semibold">{{ $pesanan->nama_pelanggan ?? 'N/A' }}</p>
+                            <p class="text-gray-800 text-sm mb-2 font-semibold">Kode Pesanan : {{ $pesanan->kode_pesanan }}
+                            </p>
+                            <p class="text-sm font-semibold 
+                                                {{ $pesanan->status_pesanan === 'selesai' ? 'text-white bg-green-500' : 'text-white bg-yellow-500' }} 
+                                                mt-4 px-3 py-1 rounded-full inline-block">
+                                {{ ucfirst($pesanan->status_pesanan) }}
+                            </p>
 
-                                    </div>
-                                </div>
+                        </div>
+                    </div>
                 @empty
                     <div class="col-span-3 text-center text-white mt-6">
                         <p>Tidak ada pesanan ditemukan.</p>
