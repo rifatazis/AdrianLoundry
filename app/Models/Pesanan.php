@@ -23,7 +23,7 @@ class Pesanan extends Model
     ]; 
 
     protected $casts = [
-        'tanggal_pesanan' => 'datetime',
+        'tanggal_pesanan' => 'date',
     ];
 
     public function user()

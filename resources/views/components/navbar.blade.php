@@ -1,4 +1,4 @@
-<nav class="bg-gray-800" x-data="{ 
+<nav class="" x-data="{ 
     activeMenu: '{{ request()->routeIs('halamanUtama') ? 'halamanUtama' 
         : (request()->routeIs('halamanMengelolaLayanandanHarga') ? 'halamanMengelolaLayanandanHarga' 
         : (request()->routeIs('tambahPesanan') || request()->routeIs('statusPesanan') || request()->routeIs('lihatStatusPesanan') ? 'pesanan' 

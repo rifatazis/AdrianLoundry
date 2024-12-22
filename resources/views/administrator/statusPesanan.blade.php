@@ -39,7 +39,7 @@ style="background-image: url('/images/transaksi.png');">
                         <select
         name="status_pesanan"
         class="text-sm font-semibold py-1 px-3 uppercase w-full h-full flex items-center justify-center rounded-md
-               {{ $pesanan->status_pesanan === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-white text-gray-800' }}"
+               {{ $pesanan->status_pesanan === 'selesai' ? 'bg-green-100 text-green-800' : 'bg-gray-500 text-white' }}"
         data-id="{{ $pesanan->id_pesanan }}"
         {{ $pesanan->status_pesanan === 'selesai' ? 'disabled' : '' }}
         onchange="updateStatus(this)"

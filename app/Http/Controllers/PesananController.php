@@ -9,7 +9,7 @@ class PesananController extends Controller
 {
     public function tambahPesanan()
     {
-        $pesanans = Pesanan::with('layanan')->get();
+        $pesanans = Pesanan::with('layanan')->paginate(10);
         $layanan = Layanan::all(); 
 
         return view('administrator.tambahPesanan', compact('pesanans', 'layanan'));
@@ -51,7 +51,7 @@ public function ubahStatusPesanan(Request $request, $id)
     $pesanan = Pesanan::findOrFail($id);
 
     if ($pesanan->status_pesanan === 'selesai') {
-        return response()->json(['success' => false, 'message' => 'Status selesai tidak dapat diubah lagi.']);
+        return response()->json(['success' => false, 'message' => '']);
     }
 
     $pesanan->status_pesanan = $request->status_pesanan;
