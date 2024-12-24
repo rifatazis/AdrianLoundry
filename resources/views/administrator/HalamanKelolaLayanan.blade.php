@@ -43,7 +43,7 @@
                 x-transition:leave-end="opacity-0"
                 class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50" x-cloak>
                 <div class="p-6 rounded-lg shadow-lg w-1/3"
-                    style="background-image: url('/images/tambah.png'); background-size: cover; background-position: center;">
+                    style="background-image: url('{{ asset('images/tambah.png') }}'); background-size: cover; background-position: center;">
                     <h2 class="text-2xl mb-4 text-white">Tambah Layanan</h2>
                     <form action="{{ route('layanan.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -85,7 +85,7 @@
                 x-transition:leave-end="opacity-0"
                 class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50" x-cloak>
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/3"
-                    style="background-image: url('/images/tambah.png'); background-size: cover; background-position: center;">
+                    style="background-image: url('{{ asset('images/tambah.png') }}'); background-size: cover; background-position: center;">
                     <h2 class="text-2xl text-white mb-4">Ubah Layanan</h2>
                     <form x-bind:action="'{{ url('layanan') }}/' + editLayanan.id_layanan" method="POST"
                         enctype="multipart/form-data">
