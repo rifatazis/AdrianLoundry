@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Pesanan;
 use App\Models\Layanan;
+use App\Models\Pesanan;
 use Illuminate\Http\Request;
 
 class PesananController extends Controller
@@ -38,16 +38,16 @@ class PesananController extends Controller
 
     public function pesanBerhasilTambah($message)
     {
-        return redirect()->route('tambahPesanan')->with('success', $message);
+        return redirect()->route('HalamanTambahPesanan')->with('success', $message);
     }
 
-    // menampilkan halaman tambahPesanan
+    // menampilkan halaman HalamanTambahPesanan
     public function tambahPesanan()
     {
         $pesanans = Pesanan::with('layanan')->paginate(10);
         $layanan = Layanan::all(); 
 
-        return view('administrator.tambahPesanan', compact('pesanans', 'layanan'));
+        return view('administrator.HalamanTambahPesanan', compact('pesanans', 'layanan'));
     }
 
     //di proses di tampilkan di atas
@@ -112,6 +112,7 @@ public function ubahStatusPesanan(Request $request, $id)
     
         return view('administrator.HalamanLihatStatusPesanan', compact('pesanans'));
     }    
+
     public function tidakDitemukan($pesan)
     {
         return view('administrator.HalamanLihatStatusPesanan', ['error' => $pesan]);
@@ -128,12 +129,12 @@ public function ubahStatusPesanan(Request $request, $id)
             return $this->tidakDitemukann('Kode pesanan tidak ditemukan.');
         }
     
-        return view('pelanggan.halamanUtama', compact('pesanans'));
+        return view('pelanggan.HalamanUtama', compact('pesanans'));
     }
     
     public function tidakDitemukann($pesan)
     {
-        return redirect()->route('pelanggan.halamanUtama')->with('error', $pesan);
+        return redirect()->route('pelanggan.HalamanUtama')->with('error', $pesan);
     }
 
 }

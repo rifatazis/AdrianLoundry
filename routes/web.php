@@ -8,14 +8,14 @@ use App\Models\Layanan;
 
 // Route halaman login
 Route::get('/', function () {
-    return view('auth/halamanLogin');
+    return view('auth/HalamanLogin');
 });
 
 // Authentication Routes
-Route::get('halamanLogin', [AuthController::class, 'tampilLogin'])->name('login');
-Route::post('halamanLogin', [AuthController::class, 'login']);
-Route::get('halamanRegister', [AuthController::class, 'tampilRegister'])->name('register');
-Route::post('halamanRegister', [AuthController::class, 'register']);
+Route::get('HalamanLogin', [AuthController::class, 'tampilLogin'])->name('login');
+Route::post('HalamanLogin', [AuthController::class, 'login']);
+Route::get('HalamanRegister', [AuthController::class, 'tampilRegister'])->name('register');
+Route::post('HalamanRegister', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 // Group routes for Administrator with 'auth' and 'role:administrator' middleware
@@ -28,14 +28,14 @@ Route::middleware(['auth', 'role:administrator'])->prefix('administrator')->grou
     Route::get('HalamanKelolaLayanan', [LayananController::class, 'index'])->name('HalamanKelolaLayanan');
 
     // Pesanan Routes
-    Route::get('tambahPesanan', [PesananController::class, 'tambahPesanan'])->name('tambahPesanan');
-    Route::post('tambahPesanan', [PesananController::class, 'store'])->name('tambahPesanan.store');
+    Route::get('HalamanTambahPesanan', [PesananController::class, 'tambahPesanan'])->name('HalamanTambahPesanan');
+    Route::post('HalamanTambahPesanan', [PesananController::class, 'store'])->name('HalamanTambahPesanan.store');
     Route::resource('layanan', LayananController::class);
     Route::get('HalamanUbahStatusPesanan', [PesananController::class, 'statusPesanan'])->name('HalamanUbahStatusPesanan');
     
     // Keuangan Routes
     Route::get('HalamanLihatDataPemasukan', [KeuanganController::class, 'dataPemasukan'])->name('HalamanLihatDataPemasukan');
-    Route::get('data-pemasukan', [KeuanganController::class, 'index'])->name('data.pemasukan');
+    Route::get('data-pemasukan', [KeuanganController::class, 'dataPemasukan'])->name('data.pemasukan');
     Route::get('HalamanLihatStatistik', [KeuanganController::class, 'statistik'])->name('HalamanLihatStatistik');
 
     // Status Pesanan Routes
@@ -48,9 +48,9 @@ Route::middleware(['auth', 'role:administrator'])->prefix('administrator')->grou
 Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->group(function () {
 
     // Halaman Utama Pelanggan
-    Route::get('halamanUtama', function () {
-        return view('pelanggan.halamanUtama');
-    })->name('pelanggan.halamanUtama');
+    Route::get('HalamanUtama', function () {
+        return view('pelanggan.HalamanUtama');
+    })->name('pelanggan.HalamanUtama');
 });
 
 // Pesanan Routes (can be used globally)

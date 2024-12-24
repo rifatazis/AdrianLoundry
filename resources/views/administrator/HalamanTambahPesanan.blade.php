@@ -140,7 +140,7 @@ style="background-image: url({{ asset('images/transaksi.png') }});">
                         <button type="button" class="text-black font-bold" @click="open = false">X</button>
                     </div>
                     <div class="modal-body mt-4">
-                        <form action="{{ route('tambahPesanan.store') }}" method="POST">
+                        <form action="{{ route('HalamanTambahPesanan.store') }}" method="POST">
                             @csrf
                             <div class="mb-4">
                                 <label for="nama_pelanggan" class="block text-white">Nama Pelanggan</label>

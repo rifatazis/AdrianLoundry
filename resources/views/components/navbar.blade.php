@@ -1,7 +1,7 @@
 <nav class="bg-[#001B79]" x-data="{ 
     activeMenu: '{{ request()->routeIs('administrator.HalamanUtamaAdministrator') ? 'administrator.HalamanUtamaAdministrator' 
         : (request()->routeIs('HalamanKelolaLayanan') ? 'HalamanKelolaLayanan' 
-        : (request()->routeIs('tambahPesanan') || request()->routeIs('HalamanUbahStatusPesanan') || request()->routeIs('HalamanLihatStatusPesanan') ? 'pesanan' 
+        : (request()->routeIs('HalamanTambahPesanan') || request()->routeIs('HalamanUbahStatusPesanan') || request()->routeIs('HalamanLihatStatusPesanan') ? 'pesanan' 
         : (request()->routeIs('HalamanLihatDataPemasukan') || request()->routeIs('HalamanLihatStatistik') ? 'HalamanLihatDataPemasukan' : ''))) }}', 
     isPesananOpen: false, 
     isKeuanganOpen: false, 
@@ -28,7 +28,7 @@
                             <a href="#" :class="{'bg-gray-900 text-white': activeMenu === 'pesanan', 'text-gray-300': activeMenu !== 'pesanan'}"
                                 class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 flex items-center">Pesanan</a>
                             <div x-show="isPesananOpen" class="absolute top-full pt-1 w-48 bg-gray-800 rounded-md shadow-lg z-10">
-                                <a href="{{ route('tambahPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Tambah Pesanan</a>
+                                <a href="{{ route('HalamanTambahPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Tambah Pesanan</a>
                                 <a href="{{ route('HalamanUbahStatusPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Ubah Status Pesanan</a>
                                 <a href="{{ route('HalamanLihatStatusPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Lihat Status Pesanan</a>
                             </div>
@@ -86,7 +86,7 @@
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
             <a href="{{ route('administrator.HalamanUtamaAdministrator') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Halaman Utama</a>
             <a href="{{ route('HalamanKelolaLayanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Kelola Layanan</a>
-            <a href="{{ route('tambahPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Tambah Pesanan</a>
+            <a href="{{ route('HalamanTambahPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Tambah Pesanan</a>
             <a href="{{ route('HalamanUbahStatusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Ubah Status Pesanan</a>
             <a href="{{ route('HalamanLihatStatusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Lihat Status Pesanan</a>
             <a href="{{ route('HalamanLihatDataPemasukan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Keuangan</a>
