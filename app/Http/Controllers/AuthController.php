@@ -12,12 +12,12 @@ class AuthController extends Controller
 {
     public function tampilLogin()
     {
-        return view('auth.halamanLogin');
+        return view('auth.HalamanLogin');
     }
 
     public function tampilRegister()
     {
-        return view('auth.halamanRegister');
+        return view('auth.HalamanRegister');
     }
 
     // register
@@ -122,7 +122,7 @@ class AuthController extends Controller
             if ($user->role == 'administrator') {
                 return redirect()->route('administrator.HalamanUtamaAdministrator');
             } else {
-                return redirect()->route('pelanggan.halamanUtama');
+                return redirect()->route('pelanggan.HalamanUtama');
             }
         } else {
             $attempts++;
