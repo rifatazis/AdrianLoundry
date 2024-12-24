@@ -12,7 +12,7 @@
     <div class="h-screen flex items-center justify-center bg-gray-100">
         <!-- Bagian Kiri  -->
         <div class="w-1/2 h-full relative hidden lg:block">
-            <img src="/images/image1.png" alt="Gambar" class="w-full h-full object-cover">
+            <img src="{{asset ('/images/image1.png') }}" alt="Gambar" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black opacity-25"></div>
             <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8">
                 <h1 class="text-4xl font-bold mb-4">Welcome Back to Adrian Laundry!</h1>
@@ -29,12 +29,16 @@
                 <h1 class="text-8xl font-bold text-gray-900 mb-2 text-center">Login</h1>
                 <p class="text-center text-lg font-medium text-gray-700 mb-12">Welcome back friends!</p>
 
+
                 <!-- Notifikasi Error -->
                 @if(session('error'))
-                    <div id="errorNotification" class="p-3 text-red-700 bg-red-100 rounded-lg transition duration-500 ease-in-out">
-                        {{ session('error') }}
+                    <div id="errorNotification"
+                        class="p-3 text-red-700 bg-red-100 rounded-lg transition duration-500 ease-in-out">
+                        <p>{!! session('error') !!}</p>
                     </div>
                 @endif
+
+
 
                 <form action="{{ route('login') }}" method="POST" class="space-y-6 mt-4">
                     @csrf
@@ -65,18 +69,35 @@
         </div>
     </div>
 
-    <script>
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            const errorNotification = document.getElementById('errorNotification');
-            if (errorNotification) {
-                setTimeout(() => {
-                    errorNotification.classList.add('opacity-0'); 
-                    setTimeout(() => errorNotification.remove(), 500);
-                }, 5000);
-            }
-        });
-    </script>
+
+
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const errorNotification = document.getElementById('errorNotification');
+        if (errorNotification) {
+            setTimeout(() => {
+                errorNotification.classList.add('opacity-0');
+                setTimeout(() => errorNotification.remove(), 500);
+            }, 30000);
+        }
+
+        const countdownElement = document.getElementById('countdown');
+        if (countdownElement) {
+            let remainingTime = parseInt(countdownElement.textContent, 10);
+
+            const interval = setInterval(() => {
+                remainingTime--;
+                countdownElement.textContent = remainingTime;
+
+                if (remainingTime <= 0) {
+                    clearInterval(interval);
+                    countdownElement.remove();
+                }
+            }, 1000);
+        }
+    });
+</script>
+
 
 </html>

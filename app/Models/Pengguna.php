@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Users extends Authenticatable
+class Pengguna extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'users'; 
+    protected $table = 'pengguna'; 
     protected $primaryKey = 'id_user'; 
 
     protected $fillable = [

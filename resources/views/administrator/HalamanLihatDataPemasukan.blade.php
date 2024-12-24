@@ -11,7 +11,7 @@
 </head>
 
 <body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
-    style="background-image: url('/images/administrator.png');">
+    style="background-image: url({{ asset('images/administrator.png') }});">
     <div class="min-h-full" x-data="{ open: false }">
         <x-navbar></x-navbar>
 

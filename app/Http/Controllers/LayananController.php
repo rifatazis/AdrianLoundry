@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\Storage;
 
 class LayananController extends Controller
 {
-
     public function index()
     {
         $layanan = Layanan::paginate(5);
-        return view('administrator.halamanMengelolaLayanandanHarga', compact('layanan'));
+        return view('administrator.HalamanKelolaLayanan', compact('layanan'));
     }
 
     // layanan Kelola Layanan
@@ -22,7 +21,7 @@ class LayananController extends Controller
             'nama_layanan' => 'required|max:100',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'jenis_pakaian' => 'required|string',
+            'jenis' => 'required|string',
         ]);
 
         $gambarPath = null;
@@ -34,9 +33,14 @@ class LayananController extends Controller
             'nama_layanan' => $request->nama_layanan,
             'harga' => $request->harga,
             'gambar' => $gambarPath,
-            'jenis_pakaian' => $request->jenis_pakaian,
+            'jenis' => $request->jenis,
         ]);
 
+        return $this->berhasilTambah();
+    }
+
+    protected function berhasilTambah()
+    {
         return redirect()->route('layanan.index')->with('success', 'Layanan berhasil ditambahkan!');
     }
 
@@ -53,13 +57,13 @@ class LayananController extends Controller
             'nama_layanan' => 'required|max:100',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'jenis_pakaian' => 'required|string',
+            'jenis' => 'required|string',
         ]);
 
         $layanan = Layanan::findOrFail($id);
         $layanan->nama_layanan = $request->nama_layanan;
         $layanan->harga = $request->harga;
-        $layanan->jenis_pakaian = $request->jenis_pakaian; 
+        $layanan->jenis = $request->jenis; 
 
         if ($request->hasFile('gambar')) {
             if ($layanan->gambar) {
@@ -70,18 +74,14 @@ class LayananController extends Controller
 
         $layanan->save();
 
+        return $this->berhasilUbah();
+    }
+
+    
+    protected function berhasilUbah()
+    {
         return redirect()->route('layanan.index')->with('success', 'Layanan berhasil diperbarui!');
     }
-
-    public function show($id)
-    {
-        $layanan = Layanan::find($id);
-        if (!$layanan) {
-            abort(404);
-        }
-        return view('layanan.show', compact('layanan'));
-    }
-
 
     public function destroy($id)
     {
@@ -91,7 +91,12 @@ class LayananController extends Controller
         }
         $layanan->delete();
 
-        return redirect()->route('layanan.index');
+        return $this->berhasilHapus();
+    }
+
+    protected function berhasilHapus()
+    {
+        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil dihapus!');
     }
 }
 

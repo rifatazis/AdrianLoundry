@@ -12,7 +12,7 @@
 </head>
 
 <body class="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed "
-    style="background-image: url('/images/administrator.png'); overflow: hidden;">
+    style="background-image: url({{ asset('images/administrator.png') }}); overflow: hidden;">
     <div class="min-h-full" x-data="{ open: false, editLayanan: null, confirmDelete: null, deleteUrl: '' }">
 
         <x-navbar></x-navbar>
@@ -51,22 +51,22 @@
                             <label for="nama_layanan" class="block text-sm font-semibold text-white">Nama
                                 Layanan</label>
                             <input type="text" id="nama_layanan" name="nama_layanan"
-                                class="w-full border px-4 py-2 rounded" required>
+                                class="w-full border px-4 py-2 rounded" style="text-transform: uppercase;" required>
                         </div>
                         <div class="mb-4">
-                            <label for="jenis_pakaian" class="block text-sm font-semibold text-white">Jenis
-                                Pakaian</label>
-                            <input type="text" id="jenis_pakaian" name="jenis_pakaian"
-                                class="w-full border px-4 py-2 rounded" required>
+                            <label for="jenis" class="block text-sm font-semibold text-white">Jenis
+                                </label>
+                            <input type="text" id="jenis" name="jenis"
+                                class="w-full border px-4 py-2 rounded" style="text-transform: uppercase;" required>
                         </div>
                         <div class="mb-4">
                             <label for="harga" class="block text-sm font-semibold text-white">Harga</label>
-                            <input type="number" id="harga" name="harga" class="w-full border px-4 py-2 rounded"
+                            <input type="number" id="harga" name="harga" style="text-transform: uppercase;" class="w-full border px-4 py-2 rounded"
                                 required>
                         </div>
                         <div class="mb-4">
                             <label for="gambar" class="block text-sm font-semibold text-white">Gambar</label>
-                            <input type="file" id="gambar" name="gambar" class="w-full border px-4 py-2 rounded">
+                            <input type="file" id="gambar" name="gambar" style="text-transform: uppercase;" class="w-full border px-4 py-2 rounded">
                         </div>
                         <div class="flex justify-end">
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Simpan</button>
@@ -86,7 +86,7 @@
                 class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50" x-cloak>
                 <div class="bg-white p-6 rounded-lg shadow-lg w-1/3"
                     style="background-image: url('/images/tambah.png'); background-size: cover; background-position: center;">
-                    <h2 class="text-2xl mb-4">Edit Layanan</h2>
+                    <h2 class="text-2xl text-white mb-4">Ubah Layanan</h2>
                     <form x-bind:action="'{{ url('layanan') }}/' + editLayanan.id_layanan" method="POST"
                         enctype="multipart/form-data">
                         @csrf
@@ -95,18 +95,18 @@
                             <label for="nama_layanan" class="block text-sm font-semibold text-white">Nama
                                 Layanan</label>
                             <input type="text" id="nama_layanan" name="nama_layanan" :value="editLayanan . nama_layanan"
-                                class="w-full border px-4 py-2 rounded" required>
+                                class="w-full border px-4 py-2 rounded" style="text-transform: uppercase;" required>
                         </div>
                         <div class="mb-4">
-                            <label for="jenis_pakaian" class="block text-sm font-semibold text-white">Jenis
-                                Pakaian</label>
-                            <input type="text" id="jenis_pakaian" name="jenis_pakaian" :value="editLayanan . jenis_pakaian"
-                                class="w-full border px-4 py-2 rounded" required>
+                            <label for="jenis" class="block text-sm font-semibold text-white">Jenis
+                                </label>
+                            <input type="text" id="jenis" name="jenis" :value="editLayanan . jenis"
+                                class="w-full border px-4 py-2 rounded" style="text-transform: uppercase;" required>
                         </div>
                         <div class="mb-4">
                             <label for="harga" class="block text-sm text-white font-semibold">Harga</label>
                             <input type="number" id="harga" name="harga" :value="editLayanan . harga"
-                                class="w-full border px-4 py-2 rounded" required>
+                                class="w-full border px-4 py-2 rounded" style="text-transform: uppercase;" required>
                         </div>
                         <div class="mb-4">
                             <label for="gambar" class="block text-sm text-white font-semibold">Gambar</label>
@@ -114,7 +114,7 @@
                             <img x-bind:src="editLayanan && editLayanan.gambar ? '{{ asset('storage') }}/' + editLayanan.gambar : ''"
                                 alt="Gambar Layanan" class="w-20 h-20 object-cover rounded mt-3"
                                 x-show="editLayanan && editLayanan.gambar">
-                            <p x-show="!editLayanan || !editLayanan.gambar" class="text-gray-500 ">Tidak ada gambar yang
+                            <p x-show="!editLayanan || !editLayanan.gambar" style="text-transform: uppercase;" class="text-gray-500 ">Tidak ada gambar yang
                                 diupload.</p>
                         </div>
 
@@ -165,7 +165,7 @@
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
                                 Nama Layanan</th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
-                                Jenis Pakaian</th>
+                                Jenis</th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
                                 Harga</th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
@@ -184,7 +184,7 @@
                                     {{ $item->nama_layanan }}
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
-                                    {{ $item->jenis_pakaian }}
+                                    {{ $item->jenis }}
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
                                     Rp {{ number_format($item->harga, 0, ',', '.') }}

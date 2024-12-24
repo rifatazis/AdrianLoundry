@@ -10,7 +10,8 @@
     <title>Tambah Pesanan</title>
 </head>
 
-<body class="h-full bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('/images/transaksi.png');">
+<body class="h-full bg-cover bg-center bg-no-repeat bg-fixed" 
+style="background-image: url({{ asset('images/transaksi.png') }});">
 
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
@@ -25,7 +26,7 @@
             <div class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-md max-w-sm w-full">
                     <h2 class="text-xl font-semibold mb-4">Pesanan Berhasil Disimpan!</h2>
-                    <p>{{ session('success') }}</p>
+                    <p class="font-semibold">{{ session('success') }}</p>
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
                         onclick="window.location.reload();">OK</button>
                 </div>
@@ -54,7 +55,7 @@
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
                                 Jenis Layanan</th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
-                                Jenis Pakaian</th>
+                                Jenis </th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
                                 Berat (kg)</th>
                             <th class="px-4 py-2 text-lg font-semibold text-black border border-[#7C7C7C] text-center">
@@ -76,7 +77,7 @@
                                     {{ $pesanan->layanan->nama_layanan }}
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
-                                    {{ $pesanan->layanan->jenis_pakaian }}
+                                    {{ $pesanan->layanan->jenis }}
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
                                     {{ $pesanan->berat }}
@@ -133,7 +134,7 @@
             <div x-show="open" x-transition @click.away="open = false"
                 class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
                 <div class="bg-white p-6 rounded-md max-w-sm w-full"
-                    style="background-image: url('/images/tambah.png'); background-size: cover; background-position: center;">
+                    style="background-image: url('{{ asset('images/tambah.png') }}'); background-size: cover; background-position: center;">
                     <div class="modal-header flex justify-between items-center">
                         <h5 class="modal-title text-xl font-semibold">Tambah Pesanan Baru</h5>
                         <button type="button" class="text-black font-bold" @click="open = false">X</button>
@@ -151,14 +152,12 @@
                                     <option value="">Pilih Layanan</option>
                                     @foreach($layanan as $l)
                                         <option value="{{ $l->id_layanan }}" data-harga="{{ $l->harga }}">
-                                            {{ $l->nama_layanan }} - {{ $l->jenis_pakaian }} -
+                                            {{ $l->nama_layanan }} - {{ $l->jenis }} -
                                             Rp{{ number_format($l->harga, 0, ',', '.') }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-
-
                             <div class="mb-4">
                                 <label for="berat" class="block text-white">Berat Pesanan (kg)</label>
                                 <input type="number" name="berat" id="berat" class="w-full p-2 border rounded-md"

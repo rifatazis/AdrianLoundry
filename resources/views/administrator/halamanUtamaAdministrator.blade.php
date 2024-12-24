@@ -12,7 +12,7 @@
 </head>
 
 <body class="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-    style="background-image: url('/images/administrator.png');">
+    style="background-image: url({{ asset('images/administrator.png') }});">
 
     <div class="min-h-full">
 

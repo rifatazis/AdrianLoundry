@@ -1,8 +1,8 @@
-<nav class="" x-data="{ 
-    activeMenu: '{{ request()->routeIs('halamanUtama') ? 'halamanUtama' 
-        : (request()->routeIs('halamanMengelolaLayanandanHarga') ? 'halamanMengelolaLayanandanHarga' 
-        : (request()->routeIs('tambahPesanan') || request()->routeIs('statusPesanan') || request()->routeIs('lihatStatusPesanan') ? 'pesanan' 
-        : (request()->routeIs('keuangan') || request()->routeIs('lihatStatistik') ? 'keuangan' : ''))) }}', 
+<nav class="bg-[#001B79]" x-data="{ 
+    activeMenu: '{{ request()->routeIs('administrator.HalamanUtamaAdministrator') ? 'administrator.HalamanUtamaAdministrator' 
+        : (request()->routeIs('HalamanKelolaLayanan') ? 'HalamanKelolaLayanan' 
+        : (request()->routeIs('tambahPesanan') || request()->routeIs('HalamanUbahStatusPesanan') || request()->routeIs('HalamanLihatStatusPesanan') ? 'pesanan' 
+        : (request()->routeIs('HalamanLihatDataPemasukan') || request()->routeIs('HalamanLihatStatistik') ? 'HalamanLihatDataPemasukan' : ''))) }}', 
     isPesananOpen: false, 
     isKeuanganOpen: false, 
     isMenuOpen: false,
@@ -13,32 +13,32 @@
             <!-- Bagian Kiri -->
             <div class="flex items-center">
                 <div class="shrink-0">
-                    <a href="{{ route('halamanUtama') }}">
-                        <img class="w-12 h-12 rounded-full object-cover" src="/images/icon.png" alt="Your Company">
+                    <a href="{{ route('administrator.HalamanUtamaAdministrator') }}">
+                        <img class="w-12 h-12 rounded-full object-cover" src="{{asset ('/images/icon.png') }}" alt="Your Company">
                     </a>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <!-- Tautan Navigasi -->
-                        <a href="{{ route('halamanUtama') }}" :class="{'bg-gray-900 text-white': activeMenu === 'halamanUtama', 'text-gray-300': activeMenu !== 'halamanUtama'}"
+                        <a href="{{ route('administrator.HalamanUtamaAdministrator') }}" :class="{'bg-gray-900 text-white': activeMenu === 'administrator.HalamanUtamaAdministrator', 'text-gray-300': activeMenu !== 'administrator.HalamanUtamaAdministrator'}"
                             class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700">Halaman Utama</a>
-                        <a href="{{ route('halamanMengelolaLayanandanHarga') }}" :class="{'bg-gray-900 text-white': activeMenu === 'halamanMengelolaLayanandanHarga', 'text-gray-300': activeMenu !== 'halamanMengelolaLayanandanHarga'}"
+                        <a href="{{ route('HalamanKelolaLayanan') }}" :class="{'bg-gray-900 text-white': activeMenu === 'HalamanKelolaLayanan', 'text-gray-300': activeMenu !== 'HalamanKelolaLayanan'}"
                             class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700">Kelola Layanan</a>
                         <div class="relative" @mouseenter="isPesananOpen = true" @mouseleave="isPesananOpen = false">
                             <a href="#" :class="{'bg-gray-900 text-white': activeMenu === 'pesanan', 'text-gray-300': activeMenu !== 'pesanan'}"
                                 class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 flex items-center">Pesanan</a>
                             <div x-show="isPesananOpen" class="absolute top-full pt-1 w-48 bg-gray-800 rounded-md shadow-lg z-10">
                                 <a href="{{ route('tambahPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Tambah Pesanan</a>
-                                <a href="{{ route('statusPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Ubah Status Pesanan</a>
-                                <a href="{{ route('lihatStatusPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Lihat Status Pesanan</a>
+                                <a href="{{ route('HalamanUbahStatusPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Ubah Status Pesanan</a>
+                                <a href="{{ route('HalamanLihatStatusPesanan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Lihat Status Pesanan</a>
                             </div>
                         </div>
                         <div class="relative" @mouseenter="isKeuanganOpen = true" @mouseleave="isKeuanganOpen = false">
-                            <a href="#" :class="{'bg-gray-900 text-white': activeMenu === 'keuangan', 'text-gray-300': activeMenu !== 'keuangan'}"
+                            <a href="#" :class="{'bg-gray-900 text-white': activeMenu === 'HalamanLihatDataPemasukan', 'text-gray-300': activeMenu !== 'HalamanLihatDataPemasukan'}"
                                 class="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 flex items-center">Keuangan</a>
                             <div x-show="isKeuanganOpen" class="absolute top-full pt-1 w-48 bg-gray-800 rounded-md shadow-lg z-10">
-                                <a href="{{ route('keuangan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Lihat Data Pemasukan</a>
-                                <a href="{{ route('lihatStatistik') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Lihat Statistik</a>
+                                <a href="{{ route('HalamanLihatDataPemasukan') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Lihat Data Pemasukan</a>
+                                <a href="{{ route('HalamanLihatStatistik') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Lihat Statistik</a>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
 
             <!-- Bagian Kanan (Logout) -->
             <div class="hidden md:flex items-center space-x-4">
-                <button @click="showLogoutModal = true" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                <button @click="showLogoutModal = true" class="rounded-md px-3 py-2 text-sm font-bold text-gray-300 hover:bg-gray-700 hover:text-white">
                     Logout
                 </button>
             </div>
@@ -84,13 +84,13 @@
     <!-- Menu Mobile -->
     <div class="md:hidden" x-show="isMenuOpen" x-transition>
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-            <a href="{{ route('halamanUtama') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Halaman Utama</a>
-            <a href="{{ route('halamanMengelolaLayanandanHarga') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Kelola Layanan</a>
+            <a href="{{ route('administrator.HalamanUtamaAdministrator') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Halaman Utama</a>
+            <a href="{{ route('HalamanKelolaLayanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Kelola Layanan</a>
             <a href="{{ route('tambahPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Tambah Pesanan</a>
-            <a href="{{ route('statusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Ubah Status Pesanan</a>
-            <a href="{{ route('lihatStatusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Lihat Status Pesanan</a>
-            <a href="{{ route('keuangan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Keuangan</a>
-            <a href="{{ route('lihatStatistik') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Lihat Statistik</a>
+            <a href="{{ route('HalamanUbahStatusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Ubah Status Pesanan</a>
+            <a href="{{ route('HalamanLihatStatusPesanan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Lihat Status Pesanan</a>
+            <a href="{{ route('HalamanLihatDataPemasukan') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Keuangan</a>
+            <a href="{{ route('HalamanLihatStatistik') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md py-2 text-base font-medium">Lihat Statistik</a>
             <button @click="showLogoutModal = true" class="block w-full text-left px-2 py-2 text-base text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
         </div>
     </div>

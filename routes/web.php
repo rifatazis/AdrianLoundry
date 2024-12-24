@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LayananController;
@@ -19,45 +18,48 @@ Route::get('halamanRegister', [AuthController::class, 'tampilRegister'])->name('
 Route::post('halamanRegister', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-// Administrator Routes
-Route::get('administrator/halamanUtamaAdministrator', function () {
-    $layanan = Layanan::all();
-    return view('administrator.halamanUtamaAdministrator', compact('layanan'));
-})->middleware(['auth', 'role:administrator'])->name('administrator.halamanUtamaAdministrator');
+// Group routes for Administrator with 'auth' and 'role:administrator' middleware
+Route::middleware(['auth', 'role:administrator'])->prefix('administrator')->group(function () {
 
-// Pelanggan Routes
-Route::get('pelanggan/halamanUtama', function () {
-    return view('pelanggan.halamanUtama');
-})->middleware(['auth', 'role:pelanggan'])->name('pelanggan.halamanUtama');
+    // Halaman Utama Administrator
+    Route::get('HalamanUtamaAdministrator', [LayananController::class, 'halamanUtama'])->name('administrator.HalamanUtamaAdministrator');
+    
+    // Kelola Layanan
+    Route::get('HalamanKelolaLayanan', [LayananController::class, 'index'])->name('HalamanKelolaLayanan');
 
-// Halaman utama administrator
-Route::get('/halamanUtamaAdministrator', function () {
-    return view('administrator.halamanUtamaAdministrator');
-})->name('halamanUtamaAdministrator');
+    // Pesanan Routes
+    Route::get('tambahPesanan', [PesananController::class, 'tambahPesanan'])->name('tambahPesanan');
+    Route::post('tambahPesanan', [PesananController::class, 'store'])->name('tambahPesanan.store');
+    Route::resource('layanan', LayananController::class);
+    Route::get('HalamanUbahStatusPesanan', [PesananController::class, 'statusPesanan'])->name('HalamanUbahStatusPesanan');
+    
+    // Keuangan Routes
+    Route::get('HalamanLihatDataPemasukan', [KeuanganController::class, 'dataPemasukan'])->name('HalamanLihatDataPemasukan');
+    Route::get('data-pemasukan', [KeuanganController::class, 'index'])->name('data.pemasukan');
+    Route::get('HalamanLihatStatistik', [KeuanganController::class, 'statistik'])->name('HalamanLihatStatistik');
 
-// halaman utama pelanggan
-Route::get('/halamanUtama', [LayananController::class, 'halamanUtama'])->name('halamanUtama');
+    // Status Pesanan Routes
+    Route::get('HalamanLihatStatusPesanan', [PesananController::class, 'lihatStatusPesanan'])->name('HalamanLihatStatusPesanan');
+    Route::get('pesanan/cari', [PesananController::class, 'cari'])->name('pesanan.cari');
+    Route::get('pesanan', [PesananController::class, 'index'])->name('pesanan.index');
+});
 
+// Group routes for Pelanggan with 'auth' and 'role:pelanggan' middleware
+Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->group(function () {
 
-// Layanan Routes
-Route::resource('layanan', LayananController::class);
-Route::get('layanan/{id}', [LayananController::class, 'show'])->name('layanan.show');
-Route::get('/halamanMengelolaLayanandanHarga', [LayananController::class, 'index'])->name('halamanMengelolaLayanandanHarga');
+    // Halaman Utama Pelanggan
+    Route::get('halamanUtama', function () {
+        return view('pelanggan.halamanUtama');
+    })->name('pelanggan.halamanUtama');
+});
 
-// Pesanan Routes
-Route::get('/tambahPesanan', [PesananController::class, 'tambahPesanan'])->name('tambahPesanan');
-Route::post('/tambahPesanan', [PesananController::class, 'store'])->name('tambahPesanan.store');
-Route::get('/statusPesanan', [PesananController::class, 'statusPesanan'])->name('statusPesanan');
-Route::patch('/pesanan/{id}/ubah-status', [PesananController::class, 'ubahStatusPesanan'])->name('ubahStatusPesanan');
-
-// Keuangan Routes
-Route::get('/keuangan', [KeuanganController::class, 'dataPemasukan'])->name('keuangan');
-Route::get('/data-pemasukan', [KeuanganController::class, 'index'])->name('data.pemasukan');
-Route::get('/lihatStatistik', [KeuanganController::class, 'statistik'])->name('lihatStatistik');
-
-
-// Status Pesanan Routes
-Route::get('/lihatStatusPesanan', [PesananController::class, 'lihatStatusPesanan'])->name('lihatStatusPesanan');
-Route::get('/pesanan/cari', [PesananController::class, 'cari'])->name('pesanan.cari');
+// Pesanan Routes (can be used globally)
 Route::get('/pesanan/carii', [PesananController::class, 'carii'])->name('pesanan.carii');
-Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
+Route::resource('layanan', LayananController::class);
+Route::patch('pesanan/{id}/ubah-status', [PesananController::class, 'ubahStatusPesanan'])->name('ubahStatusPesanan');
+
+
+// Unauthorized Route
+Route::get('/unauthorized', function () {
+    return view('unauthorized');
+})->name('unauthorized');

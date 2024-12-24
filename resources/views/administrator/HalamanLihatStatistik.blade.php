@@ -12,7 +12,7 @@
 </head>
 
 <body class="h-full bg-cover bg-center bg-no-repeat bg-fixed"
-    style="background-image: url('/images/administrator.png');">
+    style="background-image: url({{ asset('images/administrator.png') }});">
     <div class="min-h-full " x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
@@ -22,7 +22,7 @@
             <h2 class="text-3xl font-bold text-white">Data Pemasukan Harian</h2>
         </div>
 
-        <form action="{{ route('lihatStatistik') }}" method="GET" class="p-4">
+        <form action="{{ route('HalamanLihatStatistik') }}" method="GET" class="p-4">
             <div class="flex justify-between items-center mb-4">
                 <div class="pl-80 text-white">
                 <h1 class="text-xl font-semibold text-white">Data Pemasukan Bulan {{ \Carbon\Carbon::createFromFormat('m', $bulan)->format('F') }} Tahun {{ $tahun }}</h1>

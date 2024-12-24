@@ -18,8 +18,8 @@
         <header class="bg-gray-800 shadow">
             <div class="container mx-auto flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
                 <!-- Logo Laundry -->
-                <a href="{{ route('halamanUtama') }}" class="flex items-center">
-                    <img src="/images/icon.png" alt="Logo Laundry" class="h-12 w-12 rounded-full">
+                <a href="#" class="flex items-center">
+                    <img src="{{asset('/images/icon.png') }}" alt="Logo Laundry" class="h-12 w-12 rounded-full ">
                     <span class="ml-3 text-white text-xl font-bold">Adrian Laundry</span>
                 </a>
 
@@ -57,11 +57,15 @@
             <p class="text-xl text-white mt-2">Dijamin bersih, rapi, dan wangi</p>
         </div>
 
-        @if(session('success'))
-        <div class="bg-red-500 text-white p-4 rounded-md mb-4">
-            {{ session('success') }}
-        </div>
+        @if(session('error'))
+            <div class="flex justify-center items-center">
+                <div class="bg-red-500 text-white text-sm p-3 rounded-lg shadow-md inline-block">
+                    {{ session('error') }}
+                </div>
+            </div>
         @endif
+
+
 
         <div class="container mx-auto p-6">
             <!-- Form Pencarian Kode Unik -->
@@ -69,49 +73,53 @@
                 <form action="{{ route('pesanan.carii') }}" method="GET" class="w-full max-w-md relative">
                     <input type="text" name="kode_pesanan" placeholder="Masukkan kode pesanan"
                         class="w-full p-4 pl-14 pr-16 border rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        required>
-                    <button type="submit" class="absolute left-0 top-1/2 transform -translate-y-1/2 p-2">
+                        style="text-transform: uppercase;" required>
+                    <button type="submit" class="absolute right-0 top-1/2 transform -translate-y-1/2 p-2">
                         <img src="{{ asset('images/search.png') }}" alt="Icon" class="w-10 h-10">
                     </button>
                 </form>
             </div>
 
+
             <!-- Daftar Pesanan -->
             <div class="grid grid-cols-1 sm:grid-cols-1 gap-6 text-center">
                 @if(isset($pesanans) && $pesanans->isNotEmpty())
-                @foreach($pesanans as $pesanan)
-                <div class="p-4 rounded-lg shadow-lg bg-transparent">
-                    <img src="{{ $pesanan->layanan->gambar ? asset('storage/' . $pesanan->layanan->gambar) : asset('images/default.png') }}"
-                        alt="{{ $pesanan->layanan->nama_layanan }}"
-                        class="w-32 h-32 object-cover object-center mx-auto rounded-lg shadow-md">
+                    @foreach($pesanans as $pesanan)
+                        <div class="p-4 rounded-lg shadow-lg bg-transparent">
+                            <img src="{{ $pesanan->layanan->gambar ? asset('storage/' . $pesanan->layanan->gambar) : asset('images/default.png') }}"
+                                alt="{{ $pesanan->layanan->nama_layanan }}"
+                                class="w-32 h-32 object-cover object-center mx-auto rounded-lg shadow-md">
 
-                    <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->nama_layanan }}</h3>
-                    <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->jenis_pakaian }}</h3>
+                            <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->nama_layanan }}</h3>
+                            <h3 class="font-bold mt-2 text-white">{{ $pesanan->layanan->jenis_pakaian }}</h3>
 
-                    <p class="text-sm text-white">
-                        {{ $pesanan->berat }} kg - Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}
-                    </p>
+                            <p class="text-sm text-white">
+                                {{ $pesanan->berat }} kg - Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}
+                            </p>
 
-                    <p class="text-sm text-white">
-                        {{ $pesanan->tanggal_pesanan->format('d-m-Y') }}
-                    </p>
+                            <p class="text-sm text-white">
+                                {{ $pesanan->tanggal_pesanan->format('d-m-Y') }}
+                            </p>
 
-                    <p class="text-sm text-white">
-                        Nama Pelanggan : {{ $pesanan->user->username ?? 'Pelanggan Baru' }}
-                    </p>
+                            <p class="text-sm text-white">
+                                Nama Pelanggan : {{ $pesanan->user->username ?? 'Pelanggan Baru' }}
+                            </p>
 
-                    <p class="text-sm text-white">
-                        Kode : {{ $pesanan->kode_pesanan }}
-                    </p>
+                            <p class="text-sm text-white">
+                                Kode : {{ $pesanan->kode_pesanan }}
+                            </p>
 
-                    <p
-                        class="text-sm font-semibold {{ $pesanan->status_pesanan === 'selesai' ? 'text-green-500' : 'text-yellow-500' }}">
-                        {{ ucfirst($pesanan->status_pesanan) }}
-                    </p>
-                </div>
-                @endforeach
+                            <p
+                                class="text-sm font-semibold {{ $pesanan->status_pesanan === 'selesai' ? 'text-green-500' : 'text-yellow-500' }}">
+                                {{ ucfirst($pesanan->status_pesanan) }}
+                            </p>
+                        </div>
+                    @endforeach
                 @endif
             </div>
+
+            </main>
+
         </div>
     </div>
 </body>

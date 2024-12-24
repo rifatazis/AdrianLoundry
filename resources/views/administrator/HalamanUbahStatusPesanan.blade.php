@@ -12,7 +12,7 @@
 </head>
 
 <body class="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-style="background-image: url('/images/transaksi.png');">
+style="background-image: url({{ asset('images/transaksi.png') }});">
     <div class="min-h-full" x-data="{ open: false }">
         <!-- Navbar -->
         <x-navbar></x-navbar>
@@ -24,9 +24,9 @@ style="background-image: url('/images/transaksi.png');">
 
         <div class="container mt-4 mx-auto">
 
-            @if(session('success'))
+            @if(session('error'))
                 <div class="bg-green-500 text-white p-4 rounded-md mb-4">
-                    {{ session('success') }}
+                    {{ session('error') }}
                 </div>
             @endif
 
@@ -63,8 +63,8 @@ style="background-image: url('/images/transaksi.png');">
                                 <span class="font-bold">{{ $pesanan->layanan->nama_layanan }}</span>
                             </p>
                             <p class="flex text-gray-800 text-sm mb-3">
-                                <span class="w-48 text-left font-medium">Jenis Pakaian:</span>
-                                <span class="font-bold">{{ $pesanan->layanan->jenis_pakaian }}</span>
+                                <span class="w-48 text-left font-medium">Jenis:</span>
+                                <span class="font-bold">{{ $pesanan->layanan->jenis }}</span>
                             </p>
                             <p class="flex text-gray-800 text-sm mb-3">
                                 <span class="w-48 text-left font-medium">Harga Pesanan:</span>

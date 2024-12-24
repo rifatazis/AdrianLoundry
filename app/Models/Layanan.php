@@ -14,7 +14,7 @@ class Layanan extends Model
         'nama_layanan',
         'harga',
         'gambar',
-        'jenis_pakaian',
+        'jenis',
     ];
 
     public function pesanan()

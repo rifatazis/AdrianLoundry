@@ -20,7 +20,6 @@ class Pesanan extends Model
         'tanggal_pesanan',
         'status_pesanan',
         'nama_pelanggan',
-        // 'jenis_pakaian',
     ]; 
 
     protected $casts = [
@@ -29,7 +28,7 @@ class Pesanan extends Model
 
     public function user()
     {
-        return $this->belongsTo(Users::class, 'id_user', 'id_user');
+        return $this->belongsTo(Pengguna::class, 'id_user', 'id_user');
     }
 
     public function layanan()

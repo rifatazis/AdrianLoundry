@@ -21,7 +21,7 @@ class KeuanganController extends Controller
                                 ->whereYear('tanggal_pesanan', $tahun)
                                 ->sum('total_harga');
 
-        return view('administrator.keuangan', compact('pesanans', 'totalPemasukan', 'bulan', 'tahun'));
+        return view('administrator.HalamanLihatDataPemasukan', compact('pesanans', 'totalPemasukan', 'bulan', 'tahun'));
     }
 
     public function dataPemasukan(Request $request)
@@ -39,7 +39,7 @@ class KeuanganController extends Controller
                                 ->whereMonth('tanggal_pesanan', $bulan)
                                 ->sum('total_harga');
 
-        return view('administrator.keuangan', compact('pesanans', 'totalPemasukan', 'bulan', 'tahun'));
+        return view('administrator.HalamanLihatDataPemasukan', compact('pesanans', 'totalPemasukan', 'bulan', 'tahun'));
     }
 
 
@@ -72,7 +72,7 @@ class KeuanganController extends Controller
                                  ->whereMonth('tanggal_pesanan', $bulan)
                                  ->sum('total_harga');
     
-        return view('administrator.lihatStatistik', compact('labels', 'data', 'bulan', 'tahun', 'totalPemasukan'));
+        return view('administrator.HalamanLihatStatistik', compact('labels', 'data', 'bulan', 'tahun', 'totalPemasukan'));
     }
     
     
