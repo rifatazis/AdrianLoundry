@@ -66,7 +66,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="gambar" class="block text-sm font-semibold text-white">Gambar</label>
-                            <input type="file" id="gambar" name="gambar" style="text-transform: uppercase;" class="w-full border px-4 py-2 rounded">
+                            <input type="file" id="gambar" name="gambar"  class="w-full border px-4 py-2 rounded">
                         </div>
                         <div class="flex justify-end">
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Simpan</button>
@@ -114,7 +114,7 @@
                             <img x-bind:src="editLayanan && editLayanan.gambar ? '{{ asset('storage') }}/' + editLayanan.gambar : ''"
                                 alt="Gambar Layanan" class="w-20 h-20 object-cover rounded mt-3"
                                 x-show="editLayanan && editLayanan.gambar">
-                            <p x-show="!editLayanan || !editLayanan.gambar" style="text-transform: uppercase;" class="text-gray-500 ">Tidak ada gambar yang
+                            <p x-show="!editLayanan || !editLayanan.gambar" class="text-gray-500 ">Tidak ada gambar yang
                                 diupload.</p>
                         </div>
 
@@ -177,13 +177,16 @@
                     <tbody class="bg-[#F7E9E9]">
                         @foreach ($layanan as $index => $item)
                             <tr>
-                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center"
+                                style="text-transform: uppercase;">
                                     {{ $layanan->firstItem() + $index }}
                                 </td>
-                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center"
+                                style="text-transform: uppercase;">
                                     {{ $item->nama_layanan }}
                                 </td>
-                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center"
+                                style="text-transform: uppercase;">
                                     {{ $item->jenis }}
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
