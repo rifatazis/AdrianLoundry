@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\LockSystem;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LayananController;
@@ -19,7 +20,7 @@ Route::post('HalamanRegister', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 // Group routes for Administrator with 'auth' and 'role:administrator' middleware
-Route::middleware(['auth', 'role:administrator'])->prefix('administrator')->group(function () {
+Route::middleware(['auth', 'role:administrator', 'check.locked'])->prefix('administrator')->group(function () {
 
     // Halaman Utama Administrator
     Route::get('HalamanUtamaAdministrator', [LayananController::class, 'halamanUtama'])->name('administrator.HalamanUtamaAdministrator');
@@ -44,8 +45,8 @@ Route::middleware(['auth', 'role:administrator'])->prefix('administrator')->grou
     Route::get('pesanan', [PesananController::class, 'index'])->name('pesanan.index');
 });
 
-// Group routes for Pelanggan with 'auth' and 'role:pelanggan' middleware
-Route::middleware(['auth', 'role:pelanggan'])->prefix('pelanggan')->group(function () {
+// for Pelanggan 
+Route::middleware(['auth', 'role:pelanggan', 'check.locked'])->prefix('pelanggan')->group(function () {
 
     // Halaman Utama Pelanggan
     Route::get('HalamanUtama', function () {
@@ -63,3 +64,16 @@ Route::patch('pesanan/{id}/ubah-status', [PesananController::class, 'ubahStatusP
 Route::get('/unauthorized', function () {
     return view('unauthorized');
 })->name('unauthorized');
+
+
+// Halaman lockscreen
+Route::get('/lock', [LockSystem::class, 'showLockScreen'])->name('lock');
+
+// Proses membuka kunci
+Route::post('/unlock', [LockSystem::class, 'unlock'])->name('unlock');
+
+// Menetapkan status terkunci
+Route::post('/set-locked', function () {
+    session(['locked' => true]);
+    return response()->json(['status' => 'locked']);
+});
