@@ -91,7 +91,8 @@ class AuthController extends Controller
                 $remainingTime = $lockoutTime - $timeElapsed;
 
                 return redirect()->route('login')->with([
-                    'error' => "Terlalu banyak percobaan login. Silakan coba lagi dalam <span id='countdown'>$remainingTime</span> detik.",
+                    'error' => "Terlalu banyak percobaan login. 
+                     Silakan coba lagi dalam <span id='countdown'>$remainingTime</span> detik.",
                     'remaining_time' => $remainingTime, 
                 ]);
             }
