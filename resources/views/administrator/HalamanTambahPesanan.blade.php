@@ -73,7 +73,8 @@ style="background-image: url({{ asset('images/transaksi.png') }});">
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
                                     {{ $pesanan->nama_pelanggan }}
                                 </td>
-                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">
+                                <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center"
+                                style="text-transform: uppercase;">
                                     {{ $pesanan->layanan->nama_layanan }}
                                 </td>
                                 <td class="px-4 py-2 text-sm border border-[#7C7C7C] text-black text-center">

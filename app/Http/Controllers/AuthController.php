@@ -19,38 +19,35 @@ class AuthController extends Controller
     {
         return view('auth.HalamanRegister');
     }
-
     // register
     public function register(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:50|unique:pengguna',
-            'password' => 'required|string|min:6|confirmed',
-        ], [
-            'password.confirmed' => 'Password dan konfirmasi password tidak cocok.',
-            'password.min' => 'Password harus memiliki minimal 6 karakter.',
-            'username.required' => 'Username wajib diisi.',
-            'username.unique' => 'Username sudah digunakan.'
+        $validator = \Validator::make($request->all(), [
+            'username' => 'required|unique:pengguna',
+            'password' => 'required|confirmed|min:6',
         ]);
-
-
+    
         if ($validator->fails()) {
-            $message = $this->registerMessage($validator, false, $request->username);
-            return redirect()->route('register')->withErrors($message['message'])->withInput();
+            $response = $this->registerMessage($validator, false, $request->username);
+            return redirect()->back()->withErrors($validator)->with('error', $response['message'][0]);
         }
-
-
-        Pengguna::create([
+    
+        $user = Pengguna::create([
             'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'role' => 'pelanggan',
+            'password' => bcrypt($request->password),
         ]);
-
-        $message = $this->registerMessage(null, true, $request->username);
-        return redirect()->route('login')->with('success', $message['message'][0]);
+    
+        if ($user) {
+            $response = $this->registerMessage(null, true, $request->username);
+            return redirect()->back()->with([
+                'success' => true,
+                'registered_username' => $response['message'][0],
+            ]);
+        }
+    
+        $response = $this->registerMessage();
+        return redirect()->back()->with('error', $response['message'][0]);
     }
-
 
     private function registerMessage($validator = null, $success = false, $username = null)
     {
@@ -66,11 +63,10 @@ class AuthController extends Controller
                 'message' => [$validator->errors()->first()]
             ];
         }
-
         if ($success) {
             return [
                 'status' => 'success',
-                'message' => ['Akun "' . $username . '" berhasil tersimpan.']
+                'message' => ['' . $username . '']
             ];
         }
         return [
@@ -137,7 +133,6 @@ class AuthController extends Controller
                     'remaining_time' => $lockoutTime,
                 ]);
             }
-
             return redirect()->route('login')->with([
                 'error' => 'Username atau password salah.',
                 'remaining_attempts' => max($remainingAttempts, 0),
@@ -150,7 +145,6 @@ class AuthController extends Controller
     {
         return redirect()->back()->with('error', $message);
     }
-
 
     // Logout
     public function logout()

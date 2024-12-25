@@ -12,7 +12,7 @@
     <div class="h-screen flex items-center justify-center bg-gray-100">
         <!-- Bagian Kiri (Gambar dan Deskripsi) -->
         <div class="w-1/2 h-full relative hidden lg:block">
-            <img src="{{asset ('/images/image1.png') }}" alt="Gambar" class="w-full h-full object-cover">
+            <img src="{{asset('/images/image1.png') }}" alt="Gambar" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black opacity-25"></div>
             <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-8">
                 <h1 class="text-4xl font-bold mb-4">Welcome Back to Adrian Laundry!</h1>
@@ -28,13 +28,32 @@
                 <h1 class="text-8xl font-bold text-gray-900 mb-4 text-center pl-0">Register</h1>
                 <p class="text-center text-lg font-medium text-gray-700 mb-6">Create your account</p>
 
+                @if (session('success') && session('registered_username'))
+                    <div id="registerModal"
+                        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div class="bg-white rounded-lg shadow-lg w-1/3 p-6">
+                            <h2 class="text-2xl font-bold text-center mb-4">Registrasi Berhasil</h2>
+                            <p class="text-center text-gray-700">
+                                Akun {{ session('registered_username') }} berhasil tersimpan.
+                            </p>
+                            <div class="flex justify-center mt-6">
+                                <button id="closeModal"
+                                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition">
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+
                 @if(session('error'))
                     <div class="mb-4 p-3 text-red-700 bg-red-100 rounded-lg">
                         {{ session('error') }}
                     </div>
                 @endif
 
-                @if ($errors->any())
+                <!-- @if ($errors->any())
                     <div class="mb-4 p-3 text-red-700 bg-red-100 rounded-lg">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -42,7 +61,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                @endif -->
 
                 <form action="{{ route('register') }}" method="POST" class="space-y-6">
                     @csrf
@@ -69,7 +88,6 @@
                             Register
                         </button>
                     </div>
-
                 </form>
 
                 <p class="mt-4 text-sm text-center">
@@ -79,6 +97,20 @@
             </div>
         </div>
     </div>
+
+
+
 </body>
+<script>
+    const closeModal = document.getElementById('closeModal');
+    if (closeModal) {
+        closeModal.addEventListener('click', function () {
+            const modal = document.getElementById('registerModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+</script>
 
 </html>
